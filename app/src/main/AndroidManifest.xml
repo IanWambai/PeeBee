@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.makeshift.kuhustle">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="Sign in">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SignIn"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activities.Profile"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Profile" />
+        <activity
+            android:name=".activities.PlaceBid"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Place a bid" />
+        <activity
+            android:name=".activities.FreelancerDashboard"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="FreelancerDashboard" />
+        <activity
+            android:name=".activities.ClientDashboard"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Client Dashboard" />
+        <activity
+            android:name=".activities.JobsList"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Jobs posted" />
+        <activity
+            android:name=".activities.PostJob"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Post a new job" />
+        <activity
+            android:name=".activities.MessagesList"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Conversations" />
+        <activity
+            android:name=".activities.NotificationsList"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Notifications" />
+        <activity
+            android:name=".activities.BidsList"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Bids" />
+        <activity
+            android:name=".activities.JobView"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Job" />
+        <activity
+            android:name=".activities.MilestonesList"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Milestones" />
+        <activity
+            android:name=".activities.ClientMainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Client" />
+    </application>
+
+</manifest>
