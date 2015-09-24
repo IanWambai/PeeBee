@@ -7,4 +7,18 @@
     <string name="navigation_drawer_close">Drawer closed</string>
     <string name="default_username">Username</string>
     <string name="default_email">email@address.com</string>
+
+    //Logins
+    <string name="gplus_scope"></string>
+    <string name="twitter_key">ExYKxPcu6dvF6Bo857g7wuKFR</string>
+    <string name="twitter_secret">36Fjg3J6J6HCp8oF1tNdEsaLxQlfBcXEPAnLVRWlxA5pzkZfcF</string>
+    <string name="facebook_app_id">413447465528624</string>
+
+    //Kuhustle
+    <string name="base_url">http://neptune.kuhustle.com/api/v1/</string>
+    <string name="client_id">6tNlopt1Hqb4rVTAbYeXpwnmOPDfNN1n2bTWWRoq</string>
+    <string name="client_secret">4rJPjClpTY6znQFx5L3kg5SnFBjGvDVw55CB9N6yy8MujlpyIUKFp6OC16pExkqy2gdFaTrEUpp7gKjy6VwOCYRePvLdvZkhqIRig7TwyMzC94oucBNx3gyRiufuGXC9</string>
+    <string name="admin_username">kuhustle</string>
+    <string name="admin_password">oranges</string>
+
 </resources>

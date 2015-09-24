@@ -1,6 +1,9 @@
 package com.makeshift.kuhustle.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +25,25 @@ import com.makeshift.kuhustle.adapters.FreelancerDrawerAdapter;
 import com.makeshift.kuhustle.adapters.ViewPagerAdapter;
 import com.makeshift.kuhustle.classes.DepthPageTransformer;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private ViewPagerAdapter mViewPagerAdapter;
@@ -28,12 +51,15 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private DrawerLayout drawerLayout;
-    Intent i;
-    RecyclerView mRecyclerView;
-    RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
 
-    int icons[] = {R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black};
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private SharedPreferences sp;
+    private Intent i;
+
+    private int icons[] = {R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +67,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.view_pager);
 
         setUp();
+        new RefreshToken().execute();
     }
 
     private void setUp() {
+        sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -92,6 +121,79 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    class RefreshToken extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(getString(R.string.base_url) + "auth/token/");
+            BasicNameValuePair clientIdBasicNameValuePair = new BasicNameValuePair("client_id", getString(R.string.client_id));
+            BasicNameValuePair clientSecretBasicNameValuePair = new BasicNameValuePair("client_secret", getString(R.string.client_secret));
+            BasicNameValuePair grantTypeBasicNameValuePair = new BasicNameValuePair("grant_type", "refresh_token");
+            BasicNameValuePair refreshTokenBasicNameValuePair = new BasicNameValuePair("refresh_token", sp.getString("refreshToken", null));
+
+            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+            nameValuePairList.add(clientIdBasicNameValuePair);
+            nameValuePairList.add(clientSecretBasicNameValuePair);
+            nameValuePairList.add(grantTypeBasicNameValuePair);
+            nameValuePairList.add(refreshTokenBasicNameValuePair);
+
+            try {
+                UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
+                httpPost.setEntity(urlEncodedFormEntity);
+                httpPost.addHeader("Authorization", "Bearer " + sp.getString("accessToken", null));
+
+                try {
+                    HttpResponse httpResponse = httpClient.execute(httpPost);
+                    InputStream inputStream = httpResponse.getEntity().getContent();
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String bufferedStrChunk = null;
+
+                    while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(bufferedStrChunk);
+                    }
+
+                    return stringBuilder.toString();
+
+                } catch (ClientProtocolException cpe) {
+                    cpe.printStackTrace();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+
+            } catch (UnsupportedEncodingException uee) {
+                uee.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                JSONObject resultObj = new JSONObject(result);
+                String accessToken = resultObj.getString("access_token");
+                String tokenType = resultObj.getString("token_type");
+                String refreshToken = resultObj.getString("refresh_token");
+                String scope = resultObj.getString("scope");
+
+
+                sp.edit().putString("refreshToken", refreshToken).apply();
+                sp.edit().putString("accessToken", accessToken).apply();
+
+                Log.d("ACCESS TOKEN", accessToken);
+
+                Toast.makeText(getApplicationContext(), "Refreshed access token: " + accessToken, Toast.LENGTH_LONG).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

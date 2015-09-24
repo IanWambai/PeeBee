@@ -2,13 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.makeshift.kuhustle">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.SignIn"
             android:label="Sign in">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SignIn"
+            android:name=".activities.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name" />
         <activity
@@ -68,6 +73,18 @@
             android:name=".activities.ClientMainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Client" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="Facebook login"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="c28f8f479c5c6c55108fc022f8b9a90ff17e7b40" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
 
 </manifest>

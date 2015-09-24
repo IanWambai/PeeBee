@@ -43,7 +43,7 @@
                             android:id="@+id/tvTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
+                            android:gravity="center"
                             android:padding="16dp"
                             android:text="Plese sign in to Kuhustle"
                             android:textColor="@color/colorSecondary"
@@ -54,28 +54,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:background="#ddd"
                             android:gravity="center"
                             android:orientation="vertical"
                             android:padding="16dp">
 
-                            <Button
-                                android:id="@+id/bGoogle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Google" />
+                            <com.google.android.gms.common.SignInButton
+                                android:id="@+id/bGoogleLogin"
+                                style="@style/loginButtons" />
 
-                            <Button
-                                android:id="@+id/bFacebook"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Facebook" />
+                            <com.facebook.login.widget.LoginButton
+                                android:id="@+id/bFacebookLogin"
+                                style="@style/loginButtons" />
 
-                            <Button
-                                android:id="@+id/bTwitter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Twitter" />
+                            <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                                android:id="@+id/bTwitterLogin"
+                                style="@style/loginButtons" />
 
                         </LinearLayout>
 
