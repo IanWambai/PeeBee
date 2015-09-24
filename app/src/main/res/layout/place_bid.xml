@@ -168,6 +168,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Enter your amount"
+                                android:inputType="numberDecimal"
                                 android:textColor="#555"
                                 android:textColorHint="@color/colorPrimary" />
                         </android.support.design.widget.TextInputLayout>
@@ -194,7 +195,7 @@
                                     android:layout_gravity="center"
                                     android:gravity="center"
                                     android:hint="Duration"
-                                    android:inputType="number"
+                                    android:inputType="numberDecimal"
                                     android:textColor="#555"
                                     android:textColorHint="@color/colorPrimary" />
                             </android.support.design.widget.TextInputLayout>

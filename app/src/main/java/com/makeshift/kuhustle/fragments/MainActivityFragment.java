@@ -198,7 +198,7 @@ public class MainActivityFragment extends Fragment {
                     boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
                     skillsRequired = jobObj.getJSONArray("skills_required");
 
-                    jobs.add(new JobListItem(title, description, budget, deadline, String.valueOf(status), R.mipmap.ic_launcher));
+                    jobs.add(new JobListItem(id, title, description, budget, deadline, String.valueOf(status), R.mipmap.ic_launcher));
                 }
 
                 mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -213,8 +213,10 @@ public class MainActivityFragment extends Fragment {
                         new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Toast.makeText(getActivity().getApplicationContext(), jobs.get(position).getJobTitle() + " " + jobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
                                 i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
+                                Bundle b = new Bundle();
+                                b.putInt("id", jobs.get(position).getId());
+                                i.putExtras(b);
                                 startActivity(i);
                             }
                         })

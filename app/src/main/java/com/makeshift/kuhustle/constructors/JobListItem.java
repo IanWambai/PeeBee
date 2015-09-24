@@ -1,6 +1,8 @@
 package com.makeshift.kuhustle.constructors;
 
 public class JobListItem {
+
+    private int id;
     private String jobTitle;
     private String jobDescription;
     private String valueRange;
@@ -9,7 +11,9 @@ public class JobListItem {
     private int icon;
 
 
-    public JobListItem(String jobTitle, String jobDescription, String valueRange, String timeLeft, String numberOfBids, int icon) {
+    public JobListItem(int id, String jobTitle, String jobDescription, String valueRange, String timeLeft, String numberOfBids, int icon) {
+
+        this.id = id;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.valueRange = valueRange;
@@ -18,6 +22,13 @@ public class JobListItem {
         this.icon = icon;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getJobTitle() {
         return jobTitle;
@@ -66,4 +77,5 @@ public class JobListItem {
     public void setIcon(int icon) {
         this.icon = icon;
     }
+
 }

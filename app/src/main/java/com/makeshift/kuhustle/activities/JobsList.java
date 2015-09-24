@@ -158,7 +158,7 @@ public class JobsList extends AppCompatActivity {
                     boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
                     skillsRequired = jobObj.getJSONArray("skills_required");
 
-                    jobs.add(new JobListItem(title, description, budget, deadline, String.valueOf(status), R.mipmap.ic_launcher));
+                    jobs.add(new JobListItem(id, title, description, budget, deadline, String.valueOf(status), R.mipmap.ic_launcher));
                 }
 
                 mLayoutManager = new LinearLayoutManager(getApplicationContext());
