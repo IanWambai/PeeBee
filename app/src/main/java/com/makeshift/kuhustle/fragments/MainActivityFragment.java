@@ -90,7 +90,8 @@ public class MainActivityFragment extends Fragment {
 
         FetchJobs fetch = new FetchJobs();
         fetch.position = args.getInt(ARG_OBJECT);
-        fetch.execute(jobState);
+        fetch.jobState = jobState;
+        fetch.execute();
 
         return rootView;
 
@@ -136,13 +137,12 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-            String jobType = params[0];
             String data = null;
 
             try {
-                HttpGet httpGet = new HttpGet(getString(R.string.base_url) + jobType);
+                HttpGet httpGet = new HttpGet(getString(R.string.base_url) + jobState);
 
-                Log.d("GET REQUEST", "URL: " + getString(R.string.base_url) + jobType + " Header: " + "Bearer " + sp.getString("accessToken", null));
+                Log.d("GET REQUEST", "URL: " + getString(R.string.base_url) + jobState + " Header: " + "Bearer " + sp.getString("accessToken", null));
 
                 httpGet.addHeader("Authorization", "Bearer " + sp.getString("accessToken", null));
                 HttpClient httpClient = new DefaultHttpClient();
