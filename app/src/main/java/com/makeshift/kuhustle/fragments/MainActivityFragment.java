@@ -27,6 +27,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,159 +49,89 @@ public class MainActivityFragment extends Fragment {
     private Intent i;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SharedPreferences sp;
+    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        sp = getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE);
+        setUp();
 
-        View rootView = inflater.inflate(
-                R.layout.recycler_view, container, false);
+        return populatePages(inflater, container);
+    }
+
+    private void setUp() {
+        sp = getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE);
+    }
+
+    private View populatePages(LayoutInflater inflater, ViewGroup container) {
+
         Bundle args = getArguments();
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        rootView = inflater.inflate(
+                R.layout.recycler_view, container, false);
 
+        String jobState = null;
 
         switch (args.getInt(ARG_OBJECT)) {
             case 1:
-                final ArrayList<JobListItem> allJobs = new ArrayList<>();
-
-                new FetchJobs().execute("jobs/");
-
-
-
-                for (int i = 0; i < 100; i++) {
-                    allJobs.add(new JobListItem("Jon Snow", "You know nothing lorem ipsum dolor sit amet winter is coming", "Ksh. 25,000 - Ksh. 50,000", "6", "8", R.mipmap.ic_launcher));
-                }
-
-
-                mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-                mSwipeRefreshLayout.setColorScheme(R.color.blue, R.color.purple, R.color.green, R.color.orange);
-                mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        // Refresh items
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-
-                mAdapter = new JobsRecyclerViewAdapter(allJobs);
-                mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Toast.makeText(getActivity().getApplicationContext(), allJobs.get(position).getJobTitle() + " " + allJobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
-
-                                i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
-                                startActivity(i);
-                            }
-                        })
-                );
+                jobState = "jobs/";
                 break;
             case 2:
-                final ArrayList<JobListItem> openJobs = new ArrayList<>();
-
-                for (int i = 0; i < 100; i++) {
-                    openJobs.add(new JobListItem("Jon Snow", "You know nothing lorem ipsum dolor sit amet winter is coming", "Ksh. 25,000 - Ksh. 50,000", "6", "8", R.mipmap.ic_launcher));
-                }
-
-                mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-                mSwipeRefreshLayout.setColorScheme(R.color.blue, R.color.purple, R.color.green, R.color.orange);
-                mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        // Refresh items
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-
-                mAdapter = new JobsRecyclerViewAdapter(openJobs);
-                mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Toast.makeText(getActivity().getApplicationContext(), openJobs.get(position).getJobTitle() + " " + openJobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
-
-                                i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
-                                startActivity(i);
-                            }
-                        })
-                );
+                jobState = "jobs/?status=open";
                 break;
             case 3:
-                final ArrayList<JobListItem> wonJobs = new ArrayList<>();
-
-                for (int i = 0; i < 100; i++) {
-                    wonJobs.add(new JobListItem("Jon Snow", "You know nothing lorem ipsum dolor sit amet winter is coming", "Ksh. 25,000 - Ksh. 50,000", "6", "8", R.mipmap.ic_launcher));
-                }
-
-                mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-                mSwipeRefreshLayout.setColorScheme(R.color.blue, R.color.purple, R.color.green, R.color.orange);
-                mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        // Refresh items
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-
-                mAdapter = new JobsRecyclerViewAdapter(wonJobs);
-                mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Toast.makeText(getActivity().getApplicationContext(), wonJobs.get(position).getJobTitle() + " " + wonJobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
-
-                                i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
-                                startActivity(i);
-                            }
-                        })
-                );
+                jobState = "jobs/?status=won";
                 break;
             case 4:
-                final ArrayList<JobListItem> closedJobs = new ArrayList<>();
-
-                for (int i = 0; i < 100; i++) {
-                    closedJobs.add(new JobListItem("Jon Snow", "You know nothing lorem ipsum dolor sit amet winter is coming", "Ksh. 25,000 - Ksh. 50,000", "6", "8", R.mipmap.ic_launcher));
-                }
-
-                mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-                mSwipeRefreshLayout.setColorScheme(R.color.blue, R.color.purple, R.color.green, R.color.orange);
-                mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        // Refresh items
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-
-                mAdapter = new JobsRecyclerViewAdapter(closedJobs);
-                mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Toast.makeText(getActivity().getApplicationContext(), closedJobs.get(position).getJobTitle() + " " + closedJobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
-
-                                i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
-                                startActivity(i);
-                            }
-                        })
-                );
+                jobState = "jobs/?status=closed";
                 break;
         }
 
+        FetchJobs fetch = new FetchJobs();
+        fetch.position = args.getInt(ARG_OBJECT);
+        fetch.execute(jobState);
+
         return rootView;
+
     }
 
     class FetchJobs extends AsyncTask<String, Void, String> {
+
+        ArrayList<JobListItem> jobs = new ArrayList<>();
+        public int position;
+        public String jobState;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+            mSwipeRefreshLayout.setColorScheme(R.color.blue, R.color.purple, R.color.green, R.color.orange);
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+                @Override
+                public void onRefresh() {
+                    switch (position) {
+                        case 1:
+                            jobState = "jobs/";
+                            break;
+                        case 2:
+                            jobState = "jobs/?status=open";
+                            break;
+                        case 3:
+                            jobState = "jobs/?status=won";
+                            break;
+                        case 4:
+                            jobState = "jobs/?status=closed";
+                            break;
+                    }
+
+                    FetchJobs fetch = new FetchJobs();
+                    fetch.position = position;
+                    fetch.execute(jobState);
+                }
+            });
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -209,17 +142,21 @@ public class MainActivityFragment extends Fragment {
             try {
                 HttpGet httpGet = new HttpGet(getString(R.string.base_url) + jobType);
 
+                Log.d("GET REQUEST", "URL: " + getString(R.string.base_url) + jobType + " Header: " + "Bearer " + sp.getString("accessToken", null));
+
                 httpGet.addHeader("Authorization", "Bearer " + sp.getString("accessToken", null));
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpResponse response = httpClient.execute(httpGet);
 
                 int status = response.getStatusLine().getStatusCode();
 
-                Log.d("GET JOBS TOKEN STATUS", String.valueOf(status));
+                Log.d("GET JOBS STATUS", String.valueOf(status));
 
                 if (status == 200) {
                     HttpEntity entity = response.getEntity();
                     data = EntityUtils.toString(entity);
+                } else if (status == 401) {
+                    data = "Sorry that access token is unauthorized. (Status 401)";
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -230,8 +167,63 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            JSONObject resultObj = null;
+            JSONObject jobObj = null;
+            JSONArray results, skillsRequired;
 
-            Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            try {
+                resultObj = new JSONObject(result);
+                int count = resultObj.getInt("count");
+                String next = resultObj.getString("next");
+                String previous = resultObj.getString("previous");
+                results = resultObj.getJSONArray("results");
+
+                for (int i = 0; i < results.length(); i++) {
+                    jobObj = new JSONObject(results.get(i).toString());
+                    int id = jobObj.getInt("id");
+                    String url = jobObj.getString("url");
+                    String title = jobObj.getString("title");
+                    String description = jobObj.getString("description");
+                    boolean isOpen = jobObj.getBoolean("is_open");
+                    int status = jobObj.getInt("status");
+                    String bidEndDate = jobObj.getString("bid_end_date");
+                    String deadline = jobObj.getString("deadline");
+                    String selectedBid = jobObj.getString("selected_bid");
+                    String client = jobObj.getString("client");
+                    String category = jobObj.getString("category");
+                    String budget = jobObj.getString("budget");
+                    String statusDisplay = jobObj.getString("status_display");
+                    boolean userHasBid = jobObj.getBoolean("user_has_bid");
+                    boolean userIsClient = jobObj.getBoolean("user_is_client");
+                    boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
+                    skillsRequired = jobObj.getJSONArray("skills_required");
+
+                    jobs.add(new JobListItem(title, description, budget, deadline, String.valueOf(status), R.mipmap.ic_launcher));
+                }
+
+                mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+
+                mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.setHasFixedSize(true);
+
+                mAdapter = new JobsRecyclerViewAdapter(jobs);
+                mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
+                mRecyclerView.addOnItemTouchListener(
+                        new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Toast.makeText(getActivity().getApplicationContext(), jobs.get(position).getJobTitle() + " " + jobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
+                                i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
+                                startActivity(i);
+                            }
+                        })
+                );
+
+                mSwipeRefreshLayout.setRefreshing(false);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
