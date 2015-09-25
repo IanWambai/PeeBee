@@ -559,7 +559,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
                 } else if (status == 501) {
                     response = "This is weird, the server does not recognize the request method :-( (Status 501)";
                 } else {
-                    response = EntityUtils.toString(entity);
+                    response = "Status: "+status+" Response: "+ EntityUtils.toString(entity);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

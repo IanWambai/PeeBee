@@ -1,6 +1,7 @@
 package com.makeshift.kuhustle.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,9 +13,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.adapters.CardViewAdapter;
@@ -26,6 +25,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,18 +41,21 @@ public class Profile extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ArrayList<CardItem> cards;
-
     private SharedPreferences sp;
+    private Intent i;
+    private String username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
+        username = "mayert_braylon";
+
         setUpToolBar();
         setUp();
-
-        new GetProfile().execute("batman");
+        
+        new GetProfile().execute(username);
     }
 
     private void setUpToolBar() {
@@ -70,7 +74,7 @@ public class Profile extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ctb = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        ctb.setTitle("Username");
+        ctb.setTitle(username);
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image);
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
@@ -99,9 +103,14 @@ public class Profile extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
 
                 int status = httpResponse.getStatusLine().getStatusCode();
-                
+
                 HttpEntity entity = httpResponse.getEntity();
-                response = EntityUtils.toString(entity);
+
+                if (status == 200) {
+                    response = EntityUtils.toString(entity);
+                } else {
+                    response = "Status: " + status + " Response: " + EntityUtils.toString(entity);
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -113,19 +122,31 @@ public class Profile extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            //If the result is OK then:
-//            i = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(i);
-            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            try {
+                JSONObject resultObj = new JSONObject(result);
+                String username = resultObj.getString("username");
+                String url = resultObj.getString("url");
+                String avatar = resultObj.getString("avatar");
+                String bio = resultObj.getString("bio");
+                String verified = resultObj.getString("verified");
+                String skills = resultObj.getString("skills");
+                String experiences = resultObj.getString("experiences");
+
+                populateCards(username, url, avatar, bio, verified, skills, experiences);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void populateCards() {
+    private void populateCards(String username, String url, String avatar, String bio, String verified, String skills, String experiences) {
         cards = new ArrayList<>();
-        cards.add(new CardItem("Bio", "Lorem ipsuum dolor sit amet Lorem ipsuum dolor sit amet Lorem ipsuum dolor sit ametLorem ipsuum dolor sit ametLorem ipsuum dolor sit ametLorem ipsuum dolor sit ametLorem ipsuum dolor sit amet"));
-        cards.add(new CardItem("Skills", "Lorem ipsuum dolor sit ametLorem ipsuum dolor sit ametLorem ipsuum dolor sit ametLorem ipsuum dolor sit amet"));
-        cards.add(new CardItem("Blah", "Lorem ipsuum dolor sit ametLorem ipsuum dolor sit amet"));
-        cards.add(new CardItem("Fleek", "Lorem ipsuum dolor sit ametLorem ipsuum dolor sit ametLorem ipsuum dolor sit ametLorem ipsuum dolor sit amet"));
+
+        cards.add(new CardItem("Bio", bio));
+        cards.add(new CardItem("Skills", skills));
+        cards.add(new CardItem("Experiences", experiences));
+        cards.add(new CardItem("Verified", verified));
 
         CardViewAdapter adapter = new CardViewAdapter(cards);
         recyclerView.setAdapter(adapter);
