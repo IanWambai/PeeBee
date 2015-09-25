@@ -98,7 +98,7 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                i = new Intent(getApplicationContext(), PostJob.class);
+                i = new Intent(getApplicationContext(), PlaceJob.class);
                 startActivity(i);
             }
         });

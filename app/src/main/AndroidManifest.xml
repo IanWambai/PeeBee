@@ -46,7 +46,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Jobs posted" />
         <activity
-            android:name=".activities.PostJob"
+            android:name=".activities.PlaceJob"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Post a new job" />
         <activity
