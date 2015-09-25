@@ -94,7 +94,6 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     private Intent i;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -334,7 +333,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         if (isSignedIn) {
             setGooglePlusButtonText(bGoogleLogin, "Sign out");
             new GetGoogleProfileInformation().execute();
-        }else{
+        } else {
             setGooglePlusButtonText(bGoogleLogin, "Sign in");
         }
     }
@@ -414,9 +413,9 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bGoogleLogin:
-                if(!isSignedInToGPlus) {
+                if (!isSignedInToGPlus) {
                     signInWithGplus();
-                }else{
+                } else {
                     signOutFromGplus();
                 }
                 break;
@@ -536,37 +535,36 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
             String socialBackend = params[0];
             String token = params[1];
-            String data = null;
+            String response = null;
 
             Log.d("SOCIAL HEADER", socialBackend + ": " + token);
 
             try {
                 HttpGet httpGet = new HttpGet(getString(R.string.base_url) + "auth/convert-token/");
 
-                String auth = android.util.Base64.encodeToString(
-                        (socialBackend + " " + token).getBytes("UTF-8"),
-                        android.util.Base64.NO_WRAP);
-
                 httpGet.addHeader("Authorization", "Bearer " + socialBackend + " " + token);
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpResponse response = httpClient.execute(httpGet);
+                HttpResponse httpResponse = httpClient.execute(httpGet);
 
-                int status = response.getStatusLine().getStatusCode();
+                int status = httpResponse.getStatusLine().getStatusCode();
 
                 Log.d("REFRESH TOKEN STATUS", String.valueOf(status));
 
+                HttpEntity entity = httpResponse.getEntity();
+
                 if (status == 200) {
-                    HttpEntity entity = response.getEntity();
-                    data = EntityUtils.toString(entity);
+                    response = EntityUtils.toString(entity);
                 } else if (status == 401) {
-                    data = "Sorry your " + socialBackend + " credentials couldn't be used. Please try a different login option. (Status 401)";
+                    response = "Sorry your " + socialBackend + " credentials couldn't be used. Please try a different login option. (Status 401)";
                 } else if (status == 501) {
-                    data = "This is weird, the server does not recognize the request method :-( (Status 501)";
+                    response = "This is weird, the server does not recognize the request method :-( (Status 501)";
+                } else {
+                    response = EntityUtils.toString(entity);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return data;
+            return response;
         }
 
         @Override

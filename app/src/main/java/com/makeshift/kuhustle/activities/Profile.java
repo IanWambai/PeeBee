@@ -1,7 +1,10 @@
 package com.makeshift.kuhustle.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +12,22 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.adapters.CardViewAdapter;
 import com.makeshift.kuhustle.constructors.CardItem;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +41,8 @@ public class Profile extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<CardItem> cards;
 
+    private SharedPreferences sp;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +50,8 @@ public class Profile extends AppCompatActivity {
 
         setUpToolBar();
         setUp();
-        populateCards();
+
+        new GetProfile().execute("batman");
     }
 
     private void setUpToolBar() {
@@ -47,6 +63,8 @@ public class Profile extends AppCompatActivity {
     }
 
     private void setUp() {
+        sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+
         recyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +81,43 @@ public class Profile extends AppCompatActivity {
                 ctb.setContentScrimColor(mutedColor);
             }
         });
+    }
+
+    class GetProfile extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String username = params[0];
+            String response = null;
+
+            try {
+                HttpGet httpGet = new HttpGet(getString(R.string.base_url) + "users/" + username);
+
+                httpGet.addHeader("Authorization", "Bearer " + sp.getString("accessToken", null));
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpResponse httpResponse = httpClient.execute(httpGet);
+
+                int status = httpResponse.getStatusLine().getStatusCode();
+                
+                HttpEntity entity = httpResponse.getEntity();
+                response = EntityUtils.toString(entity);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //If the result is OK then:
+//            i = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(i);
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void populateCards() {
