@@ -9,11 +9,11 @@ public class JobListItem {
     private String jobDescription;
     private String valueRange;
     private Calendar timeLeft;
-    private String numberOfBids;
+    private int numberOfBids;
     private int icon;
 
 
-    public JobListItem(int id, String jobTitle, String jobDescription, String valueRange, Calendar timeLeft, String numberOfBids, int icon) {
+    public JobListItem(int id, String jobTitle, String jobDescription, String valueRange, Calendar timeLeft, int numberOfBids, int icon) {
         this.id = id;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
@@ -56,11 +56,11 @@ public class JobListItem {
     }
 
 
-    public String getNumberOfBids() {
+    public int getNumberOfBids() {
         return numberOfBids;
     }
 
-    public void setNumberOfBids(String numberOfBids) {
+    public void setNumberOfBids(int numberOfBids) {
         this.numberOfBids = numberOfBids;
     }
 

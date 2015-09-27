@@ -22,13 +22,11 @@ import java.util.ArrayList;
 public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<JobListItem> mDataset;
-    private int lastPosition = -1;
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView ivIcon;
-        public TextView tvTitle, tvDescription, tvValue, tvEndsInTitle, tvTimeLeft, tvDaysTitle, tvBids;
+        public TextView tvTitle, tvDescription, tvValue, tvEndsInTitle, tvTimeLeft, tvDaysTitle, tvBids, tvBidsTitle;
 
         public ViewHolder(View v) {
             super(v);
@@ -41,6 +39,7 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
             tvTimeLeft = (TextView) v.findViewById(R.id.tvTimeLeft);
             tvDaysTitle = (TextView) v.findViewById(R.id.tvDaysTitle);
             tvBids = (TextView) v.findViewById(R.id.tvBids);
+            tvBidsTitle = (TextView) v.findViewById(R.id.tvBidsTitle);
         }
     }
 
@@ -62,7 +61,24 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
         holder.ivIcon.setImageResource(mDataset.get(position).getIcon());
         holder.tvTitle.setText(mDataset.get(position).getJobTitle());
         holder.tvDescription.setText(mDataset.get(position).getJobDescription().substring(0, 100).trim() + "...");
-        holder.tvValue.setText(mDataset.get(position).getValueRange());
+
+        String budget = null;
+
+        if (mDataset.get(position).getValueRange().contains("1")) {
+            budget = "Ksh.10,000 - Ksh.50,000";
+        } else if (mDataset.get(position).getValueRange().contains("2")) {
+            budget = "Ksh.50,000 - Ksh.100,000";
+        } else if (mDataset.get(position).getValueRange().contains("3")) {
+            budget = "Ksh.100,000 - Ksh.200,000";
+        } else if (mDataset.get(position).getValueRange().contains("4")) {
+            budget = "Ksh.200,000 - Ksh.500,000";
+        } else if (mDataset.get(position).getValueRange().contains("5")) {
+            budget = "Above Ksh.500,000";
+        } else if (mDataset.get(position).getValueRange().contains("6")) {
+
+        }
+
+        holder.tvValue.setText(budget);
 
         int daysToEnd = Days.daysBetween(new DateTime(), new DateTime(mDataset.get(position).getTimeLeft().getTime().getTime())).getDays();
         if (daysToEnd > 0) {
@@ -70,10 +86,19 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
         } else {
             holder.tvEndsInTitle.setText("Bidding is closed");
             holder.tvDaysTitle.setVisibility(View.INVISIBLE);
+            holder.tvDaysTitle.setWidth(0);
+            holder.tvDaysTitle.setHeight(0);
             holder.tvTimeLeft.setVisibility(View.INVISIBLE);
+            holder.tvTimeLeft.setWidth(0);
+            holder.tvTimeLeft.setHeight(0);
         }
 
-        holder.tvBids.setText(mDataset.get(position).getNumberOfBids());
+        holder.tvBids.setText(String.valueOf(mDataset.get(position).getNumberOfBids()));
+        if (mDataset.get(position).getNumberOfBids() == 1) {
+            holder.tvBidsTitle.setText("day");
+        } else {
+            holder.tvBidsTitle.setText("days");
+        }
     }
 
     @Override
