@@ -3,6 +3,8 @@ package com.makeshift.kuhustle.activities;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -53,8 +55,19 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(226, 141, 8)));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ActivityInfo activityInfo = null;
+        try {
+            activityInfo = getPackageManager().getActivityInfo(
+                    getComponentName(), PackageManager.GET_META_DATA);
+            TextView tvToolBarText = (TextView) toolbar.findViewById(R.id.tvToolbarText);
+            tvToolBarText.setText( activityInfo.loadLabel(getPackageManager())
+                    .toString());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUp() {
@@ -183,7 +196,6 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
-
 
     @Override
     public void onBackPressed() {

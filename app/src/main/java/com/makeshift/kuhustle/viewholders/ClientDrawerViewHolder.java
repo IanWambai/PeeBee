@@ -7,17 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.makeshift.kuhustle.R;
-import com.makeshift.kuhustle.activities.ClientMainActivity;
-import com.makeshift.kuhustle.activities.ClientDashboard;
-import com.makeshift.kuhustle.activities.FreelancerDashboard;
 import com.makeshift.kuhustle.activities.JobsList;
 import com.makeshift.kuhustle.activities.MainActivity;
 import com.makeshift.kuhustle.activities.MessagesList;
 import com.makeshift.kuhustle.activities.NotificationsList;
-import com.makeshift.kuhustle.activities.Profile;
 
 /**
  * Created by Wednesday on 9/15/2015.

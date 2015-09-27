@@ -2,6 +2,8 @@ package com.makeshift.kuhustle.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.makeshift.kuhustle.R;
@@ -58,8 +61,19 @@ public class PlaceJob extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(226, 141, 8)));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ActivityInfo activityInfo = null;
+        try {
+            activityInfo = getPackageManager().getActivityInfo(
+                    getComponentName(), PackageManager.GET_META_DATA);
+            TextView tvToolBarText = (TextView) toolbar.findViewById(R.id.tvToolbarText);
+            tvToolBarText.setText(activityInfo.loadLabel(getPackageManager())
+                    .toString());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUp() {
@@ -205,5 +219,11 @@ public class PlaceJob extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }

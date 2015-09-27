@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -107,6 +109,28 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         checkSignIn();
     }
 
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ActivityInfo activityInfo = null;
+        try {
+            activityInfo = getPackageManager().getActivityInfo(
+                    getComponentName(), PackageManager.GET_META_DATA);
+            TextView tvToolBarText = (TextView) toolbar.findViewById(R.id.tvToolbarText);
+            tvToolBarText.setText(activityInfo.loadLabel(getPackageManager())
+                    .toString());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setUp() {
+        sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        progressDialog = new ProgressDialog(this);
+    }
+
     private void checkSignIn() {
         // TODO Auto-generated method stub
         hasLoggedIn = sp.getBoolean("hasLoggedIn", false);
@@ -119,17 +143,6 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
             setUpFacebook();
             setUpTwitter();
         }
-    }
-
-    private void setUpToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-    }
-
-    private void setUp() {
-        sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-        progressDialog = new ProgressDialog(this);
     }
 
     private void setUpGooglePlus() {
@@ -559,7 +572,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
                 } else if (status == 501) {
                     response = "This is weird, the server does not recognize the request method :-( (Status 501)";
                 } else {
-                    response = "Status: "+status+" Response: "+ EntityUtils.toString(entity);
+                    response = "Status: " + status + " Response: " + EntityUtils.toString(entity);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

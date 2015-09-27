@@ -37,7 +37,7 @@
         <activity
             android:name=".activities.FreelancerDashboard"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="FreelancerDashboard" />
+            android:label="Freelancer Dashboard" />
         <activity
             android:name=".activities.ClientDashboard"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -45,7 +45,7 @@
         <activity
             android:name=".activities.JobsList"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Jobs posted" />
+            android:label="Jobs" />
         <activity
             android:name=".activities.PlaceJob"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -71,10 +71,6 @@
             android:name=".activities.MilestonesList"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Milestones" />
-        <activity
-            android:name=".activities.ClientMainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Client" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
