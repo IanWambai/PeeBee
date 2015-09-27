@@ -14,7 +14,6 @@ public class JobListItem {
 
 
     public JobListItem(int id, String jobTitle, String jobDescription, String valueRange, Calendar timeLeft, String numberOfBids, int icon) {
-
         this.id = id;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;

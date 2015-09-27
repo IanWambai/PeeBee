@@ -25,6 +25,8 @@ import com.makeshift.kuhustle.adapters.FreelancerDrawerAdapter;
 import com.makeshift.kuhustle.adapters.ViewPagerAdapter;
 import com.makeshift.kuhustle.classes.DepthPageTransformer;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUp() {
+        JodaTimeAndroid.init(this);
         sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -60,7 +60,17 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.github.curioustechizen.ago.RelativeTimeTextView
+            <TextView
+                android:id="@+id/tvEndsInTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="ends in"
+                android:textColor="#555"
+                android:textSize="12sp" />
+
+            <TextView
                 android:id="@+id/tvTimeLeft"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -71,6 +81,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/tvDaysTitle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -106,7 +117,6 @@
                 android:text="bids"
                 android:textColor="#555"
                 android:textSize="12sp" />
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

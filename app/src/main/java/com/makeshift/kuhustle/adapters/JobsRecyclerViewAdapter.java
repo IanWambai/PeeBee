@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.constructors.JobListItem;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
 import java.util.ArrayList;
 
 /**
@@ -25,9 +28,7 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView ivIcon;
-        public TextView tvTitle, tvDescription, tvValue,tvBids;
-
-        RelativeTimeTextView tvTimeLeft;
+        public TextView tvTitle, tvDescription, tvValue, tvEndsInTitle, tvTimeLeft, tvDaysTitle, tvBids;
 
         public ViewHolder(View v) {
             super(v);
@@ -36,7 +37,9 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
             tvTitle = (TextView) v.findViewById(R.id.tvTitle);
             tvDescription = (TextView) v.findViewById(R.id.tvDescription);
             tvValue = (TextView) v.findViewById(R.id.tvValue);
-            tvTimeLeft = (RelativeTextView) v.findViewById(R.id.tvTimeLeft);
+            tvEndsInTitle = (TextView) v.findViewById(R.id.tvEndsInTitle);
+            tvTimeLeft = (TextView) v.findViewById(R.id.tvTimeLeft);
+            tvDaysTitle = (TextView) v.findViewById(R.id.tvDaysTitle);
             tvBids = (TextView) v.findViewById(R.id.tvBids);
         }
     }
@@ -58,9 +61,18 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
 
         holder.ivIcon.setImageResource(mDataset.get(position).getIcon());
         holder.tvTitle.setText(mDataset.get(position).getJobTitle());
-        holder.tvDescription.setText(mDataset.get(position).getJobDescription().substring(0, 100).trim()+"...");
+        holder.tvDescription.setText(mDataset.get(position).getJobDescription().substring(0, 100).trim() + "...");
         holder.tvValue.setText(mDataset.get(position).getValueRange());
-        holder.tvTimeLeft.setReferenceTime(mDataset.get(position).getTimeLeft().getTime());
+
+        int daysToEnd = Days.daysBetween(new DateTime(), new DateTime(mDataset.get(position).getTimeLeft().getTime().getTime())).getDays();
+        if (daysToEnd > 0) {
+            holder.tvTimeLeft.setText(String.valueOf(daysToEnd));
+        } else {
+            holder.tvEndsInTitle.setText("Bidding is closed");
+            holder.tvDaysTitle.setVisibility(View.INVISIBLE);
+            holder.tvTimeLeft.setVisibility(View.INVISIBLE);
+        }
+
         holder.tvBids.setText(mDataset.get(position).getNumberOfBids());
     }
 

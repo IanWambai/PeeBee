@@ -199,7 +199,7 @@ public class MainActivityFragment extends Fragment {
                     boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
                     skillsRequired = jobObj.getJSONArray("skills_required");
 
-                    jobs.add(new JobListItem(id, title, description, budget, formatTime(deadline), String.valueOf(status), R.mipmap.ic_launcher));
+                    jobs.add(new JobListItem(id, title, description, budget, formatTime(bidEndDate), String.valueOf(status), R.mipmap.ic_launcher));
                 }
 
                 mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
