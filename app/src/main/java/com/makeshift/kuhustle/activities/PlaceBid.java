@@ -43,7 +43,9 @@ public class PlaceBid extends AppCompatActivity {
     private EditText etDescription, etAmount, etDuration;
     private Spinner spDuration;
     private SharedPreferences sp;
-    private int id;
+    private int id, bids;
+    private String title, description, value;
+    private long time;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,11 @@ public class PlaceBid extends AppCompatActivity {
     private void getBundle() {
         Bundle b = getIntent().getExtras();
         id = b.getInt("id");
+        title = b.getString("title");
+        description = b.getString("description");
+        value = b.getString("value");
+        bids = b.getInt("bids");
+        time = b.getLong("time");
     }
 
     private void setUp() {
@@ -81,13 +88,18 @@ public class PlaceBid extends AppCompatActivity {
         etAmount = (EditText) findViewById(R.id.etAmount);
         etDuration = (EditText) findViewById(R.id.etDuration);
 
-
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(
                 getApplicationContext(), R.layout.spinner_item,
                 Arrays.asList(getResources().getStringArray(R.array.durations)));
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spDuration = (Spinner) findViewById(R.id.spDuration);
         spDuration.setAdapter(spinnerAdapter);
+
+        tvTitle.setText(title);
+        tvDescription.setText(description);
+        tvValue.setText(value);
+        tvBids.setText(bids + "");
+        tvTimeLeft.setText(time + "");
     }
 
     class PostBid extends AsyncTask<String, Void, String> {

@@ -32,7 +32,8 @@
         <activity
             android:name=".activities.PlaceBid"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Place a bid" />
+            android:label="Place a bid"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.FreelancerDashboard"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -48,7 +49,8 @@
         <activity
             android:name=".activities.PlaceJob"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Post a new job" />
+            android:label="Post a new job"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.MessagesList"
             android:configChanges="keyboardHidden|orientation|screenSize"

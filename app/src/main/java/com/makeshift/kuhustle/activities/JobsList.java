@@ -98,14 +98,17 @@ public class JobsList extends AppCompatActivity {
                 break;
             case 1:
                 //Jobs posted
-
+                toolbar.setTitle("Jobs open");
+                url = "jobs/?client=1"; //Get client ID
                 break;
             case 2:
                 //Jobs available
-
+                toolbar.setTitle("Jobs available");
+                url = "jobs/?status=open";
                 break;
             case 3:
                 //Jobs matching
+                toolbar.setTitle("Jobs matching your skills");
                 JSONArray skillsArray = new JSONArray();
                 try {
                     JSONObject skill1 = new JSONObject().put("id", getString(R.string.base_url) + "skills/12/");
@@ -124,7 +127,7 @@ public class JobsList extends AppCompatActivity {
                 url = "jobs/?skills_required=" + skills;
                 break;
             case 4:
-                //Jobs in progress
+                //Jobs won
 
                 break;
         }

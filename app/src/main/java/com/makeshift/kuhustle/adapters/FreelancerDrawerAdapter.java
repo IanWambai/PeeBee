@@ -47,7 +47,7 @@ public class FreelancerDrawerAdapter extends RecyclerView.Adapter<FreelancerDraw
 
         } else if (viewType == TYPE_HEADER) {
 
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.navigation_header, parent, false);
             FreelancerDrawerViewHolder vhHeader = new FreelancerDrawerViewHolder(v, viewType, context);
             return vhHeader;
         }

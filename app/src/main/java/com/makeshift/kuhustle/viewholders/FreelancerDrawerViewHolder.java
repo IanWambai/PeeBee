@@ -24,15 +24,14 @@ public class FreelancerDrawerViewHolder extends RecyclerView.ViewHolder implemen
 
     public TextView title;
     public TextView description;
-    public ImageView imageView;
-    public ImageView profile;
+    public ImageView ivIcon;
+    public ImageView ivProfilePicture, ;
     public TextView Name;
     public TextView email;
-    Context contxt;
-    Intent i;
+    public Context contxt;
+    public Intent i;
 
     private static final int TYPE_ITEM = 1;
-
 
     public FreelancerDrawerViewHolder(View itemView, int ViewType, Context c) {
         super(itemView);
@@ -43,7 +42,7 @@ public class FreelancerDrawerViewHolder extends RecyclerView.ViewHolder implemen
         if (ViewType == TYPE_ITEM) {
             title = (TextView) itemView.findViewById(R.id.tvTitle);
             description = (TextView) itemView.findViewById(R.id.tvDescription);
-            imageView = (ImageView) itemView.findViewById(R.id.ivIcon);
+            ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             Holderid = 1;
         } else {
             Name = (TextView) itemView.findViewById(R.id.name);

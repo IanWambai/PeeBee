@@ -56,7 +56,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
-        username = "mayert_braylon";
+        username = "medhurst_lew";
 
         setUpToolBar();
         setUp();

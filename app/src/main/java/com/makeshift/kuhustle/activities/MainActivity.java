@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private Intent i;
 
-    private int icons[] = {R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black};
+    private int icons[] = {R.mipmap.ic_profile, R.mipmap.ic_dashboard, R.mipmap.ic_switch, R.mipmap.ic_work, R.mipmap.ic_chat, R.mipmap.ic_notification};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -47,7 +47,7 @@ public class ClientDrawerAdapter extends RecyclerView.Adapter<ClientDrawerViewHo
 
         } else if (viewType == TYPE_HEADER) {
 
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.navigation_header, parent, false);
             ClientDrawerViewHolder vhHeader = new ClientDrawerViewHolder(v, viewType, context);
             return vhHeader;
         }

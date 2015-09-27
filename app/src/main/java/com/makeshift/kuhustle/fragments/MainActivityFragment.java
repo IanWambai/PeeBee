@@ -217,6 +217,11 @@ public class MainActivityFragment extends Fragment {
                                 i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
                                 Bundle b = new Bundle();
                                 b.putInt("id", jobs.get(position).getId());
+                                b.putString("title", jobs.get(position).getJobTitle());
+                                b.putString("description", jobs.get(position).getJobDescription());
+                                b.putString("value", jobs.get(position).getValueRange());
+                                b.putInt("bids", jobs.get(position).getNumberOfBids());
+                                b.putLong("time", jobs.get(position).getTimeLeft().getTime().getTime());
                                 i.putExtras(b);
                                 startActivity(i);
                             }
