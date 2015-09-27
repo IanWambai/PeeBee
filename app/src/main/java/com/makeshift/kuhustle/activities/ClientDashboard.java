@@ -37,7 +37,7 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
     RecyclerView.LayoutManager mLayoutManager;
     Intent i;
 
-    int icons[] = {R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black, R.drawable.blur_black};
+    int icons[] = {R.mipmap.ic_switch, R.mipmap.ic_work, R.mipmap.ic_chat ,R.mipmap.ic_notification};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -8,11 +8,11 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        app:theme="@style/toolBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed" />
-    
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:theme="@style/toolBarStyle"/>
+
 </LinearLayout>
 

@@ -95,9 +95,9 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
 
         holder.tvBids.setText(String.valueOf(mDataset.get(position).getNumberOfBids()));
         if (mDataset.get(position).getNumberOfBids() == 1) {
-            holder.tvBidsTitle.setText("day");
+            holder.tvBidsTitle.setText("bid");
         } else {
-            holder.tvBidsTitle.setText("days");
+            holder.tvBidsTitle.setText("bids");
         }
     }
 

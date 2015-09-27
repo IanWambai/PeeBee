@@ -27,15 +27,13 @@ public class ClientDrawerViewHolder extends RecyclerView.ViewHolder implements V
 
     public TextView title;
     public TextView description;
-    public ImageView imageView;
-    public ImageView profile;
-    public TextView Name;
-    public TextView email;
-    Context contxt;
-    Intent i;
+    public ImageView ivIcon, ivProfilePicture, ivHeaderBackground;
+    public TextView tvName;
+    public TextView tvEmail;
+    public Context contxt;
+    public Intent i;
 
     private static final int TYPE_ITEM = 1;
-
 
     public ClientDrawerViewHolder(View itemView, int ViewType, Context c) {
         super(itemView);
@@ -46,12 +44,13 @@ public class ClientDrawerViewHolder extends RecyclerView.ViewHolder implements V
         if (ViewType == TYPE_ITEM) {
             title = (TextView) itemView.findViewById(R.id.tvTitle);
             description = (TextView) itemView.findViewById(R.id.tvDescription);
-            imageView = (ImageView) itemView.findViewById(R.id.ivIcon);
+            ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             Holderid = 1;
         } else {
-            Name = (TextView) itemView.findViewById(R.id.name);
-            email = (TextView) itemView.findViewById(R.id.email);
-            profile = (ImageView) itemView.findViewById(R.id.circleView);
+            tvName = (TextView) itemView.findViewById(R.id.tvName);
+            tvEmail = (TextView) itemView.findViewById(R.id.tvEmail);
+            ivProfilePicture = (ImageView) itemView.findViewById(R.id.ivProfilePicture);
+            ivHeaderBackground = (ImageView) itemView.findViewById(R.id.ivHeaderBackground);
             Holderid = 0;
         }
     }

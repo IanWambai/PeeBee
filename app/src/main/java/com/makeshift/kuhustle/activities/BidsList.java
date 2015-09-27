@@ -95,4 +95,9 @@ public class BidsList extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 }

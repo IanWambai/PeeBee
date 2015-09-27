@@ -1,10 +1,6 @@
 package com.makeshift.kuhustle.constructors;
 
-import android.os.Parcel;
-
-import com.felipecsl.asymmetricgridview.library.model.AsymmetricItem;
-
-public class SkillListItem implements AsymmetricItem {
+public class SkillListItem  {
 	private String title;
 	private int icon;
 
@@ -29,23 +25,4 @@ public class SkillListItem implements AsymmetricItem {
 		this.icon = icon;
 	}
 
-	@Override
-	public int getColumnSpan() {
-		return 0;
-	}
-
-	@Override
-	public int getRowSpan() {
-		return 0;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-
-	}
 }

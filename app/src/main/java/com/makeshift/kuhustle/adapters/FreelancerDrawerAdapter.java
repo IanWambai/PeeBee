@@ -1,12 +1,18 @@
 package com.makeshift.kuhustle.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.makeshift.kuhustle.R;
+import com.makeshift.kuhustle.classes.FastBlur;
 import com.makeshift.kuhustle.viewholders.FreelancerDrawerViewHolder;
 
 /**
@@ -60,11 +66,12 @@ public class FreelancerDrawerAdapter extends RecyclerView.Adapter<FreelancerDraw
         if (holder.Holderid == 1) {
             holder.title.setText(mNavTitles[position - 1]);
             holder.description.setText(mNavDescriptions[position - 1]);
-            holder.imageView.setImageResource(mIcons[position - 1]);
+            holder.ivIcon.setImageResource(mIcons[position - 1]);
         } else {
-            holder.profile.setImageResource(profile);
-            holder.Name.setText(name);
-            holder.email.setText(email);
+            blur(holder.contxt, profile, 25, holder.ivHeaderBackground);
+            holder.ivProfilePicture.setImageResource(profile);
+            holder.tvName.setText(name);
+            holder.tvEmail.setText(email);
         }
     }
 
@@ -83,5 +90,30 @@ public class FreelancerDrawerAdapter extends RecyclerView.Adapter<FreelancerDraw
 
     private boolean isPositionHeader(int position) {
         return position == 0;
+    }
+
+    public static void blur(Context context, int resourceId, int radius, ImageView view) {
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
+        float scaleFactor = 1;
+
+        int measuredWidth = view.getMeasuredWidth();
+        int measuredHeight = view.getMeasuredHeight();
+        if (measuredWidth == 0 || measuredHeight == 0) {
+            measuredWidth = 350;
+            measuredHeight = 350;
+        }
+
+        Bitmap overlay = Bitmap.createBitmap((int) (measuredWidth / scaleFactor),
+                (int) (measuredHeight / scaleFactor), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(overlay);
+        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
+        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
+        Paint paint = new Paint();
+        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+
+        overlay = FastBlur.doBlur(overlay, (int) radius, true);
+        view.setImageBitmap(overlay);
     }
 }

@@ -24,10 +24,9 @@ public class FreelancerDrawerViewHolder extends RecyclerView.ViewHolder implemen
 
     public TextView title;
     public TextView description;
-    public ImageView ivIcon;
-    public ImageView ivProfilePicture, ;
-    public TextView Name;
-    public TextView email;
+    public ImageView ivIcon, ivProfilePicture, ivHeaderBackground;
+    public TextView tvName;
+    public TextView tvEmail;
     public Context contxt;
     public Intent i;
 
@@ -45,9 +44,10 @@ public class FreelancerDrawerViewHolder extends RecyclerView.ViewHolder implemen
             ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             Holderid = 1;
         } else {
-            Name = (TextView) itemView.findViewById(R.id.name);
-            email = (TextView) itemView.findViewById(R.id.email);
-            profile = (ImageView) itemView.findViewById(R.id.circleView);
+            tvName = (TextView) itemView.findViewById(R.id.tvName);
+            tvEmail = (TextView) itemView.findViewById(R.id.tvEmail);
+            ivProfilePicture = (ImageView) itemView.findViewById(R.id.ivProfilePicture);
+            ivHeaderBackground = (ImageView) itemView.findViewById(R.id.ivHeaderBackground);
             Holderid = 0;
         }
     }
@@ -88,8 +88,6 @@ public class FreelancerDrawerViewHolder extends RecyclerView.ViewHolder implemen
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 contxt.startActivity(i);
                 break;
-
-
         }
     }
 }
