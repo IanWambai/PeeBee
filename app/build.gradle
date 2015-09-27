@@ -62,6 +62,6 @@ dependencies {
     }
 
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.gabrielemariotti.cards:cardslib-core:2.1.0'
     compile 'net.danlew:android.joda:2.8.2'
+    compile 'com.felipecsl.asymmetricgridview:library:2.0.1'
 }

@@ -3,7 +3,6 @@
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:card="http://schemas.android.com/tools"
     android:background="#eee"
     android:orientation="vertical">
 
@@ -125,15 +124,15 @@
                                 android:background="#555"
                                 android:gravity="center" />
 
-                            <it.gmariotti.cardslib.library.view.CardGridView
-                                android:id="@+id/myGrid"
-                                card:list_card_layout_resourceID="@layout/card_grid"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:columnWidth="155dp"
+                            <com.makeshift.kuhustle.classes.ExpandableGridView
+                                android:id="@+id/gvSkills"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:horizontalSpacing="2dp"
-                                android:numColumns="auto_fit"
+                                android:isScrollContainer="false"
+                                android:numColumns="4"
+                                android:scrollbars="none"
                                 android:stretchMode="columnWidth"
                                 android:verticalSpacing="2dp" />
                         </LinearLayout>

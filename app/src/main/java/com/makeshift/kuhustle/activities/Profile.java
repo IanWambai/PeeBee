@@ -12,11 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.makeshift.kuhustle.R;
-import com.makeshift.kuhustle.adapters.CardItemAdapter;
-import com.makeshift.kuhustle.constructors.ProductListItem;
+import com.makeshift.kuhustle.adapters.GridItemAdapter;
+import com.makeshift.kuhustle.classes.ExpandableGridView;
+import com.makeshift.kuhustle.constructors.SkillListItem;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,11 +35,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.view.CardGridView;
-
 /**
  * Created by Wednesday on 9/14/2015.
  */
@@ -48,8 +47,9 @@ public class Profile extends AppCompatActivity {
     private Intent i;
     private String username;
     private TextView tvBio, tvExperiences, tvVerified;
-    private CardItemAdapter inventoryAdapter;
-    private ArrayList<ProductListItem> inventoryItems;
+    private GridItemAdapter skillsAdapter;
+    private ArrayList<SkillListItem> skillsList;
+    private ExpandableGridView gridView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -147,37 +147,38 @@ public class Profile extends AppCompatActivity {
     }
 
     private void populateCards(String username, String url, String avatar, String bio, String verified, String skills, String experiences) {
+        skillsList = new ArrayList<>();
+
         try {
             JSONArray skillsArray = new JSONArray(skills);
 
             for (int i = 0; i < skillsArray.length(); i++) {
-                JSONObject skill = new JSONObject((String) skillsArray.get(i));
-                String id = skill.getString("id");
-                String category = skill.getString("category");
-                String title = skill.getString("title");
-                String categoryUrl = skill.getString("url");
+                String id = ((JSONObject) skillsArray.get(i)).getString("id");
+                String category = ((JSONObject) skillsArray.get(i)).getString("category");
+                String title = ((JSONObject) skillsArray.get(i)).getString("title");
+                String categoryUrl = ((JSONObject) skillsArray.get(i)).getString("url");
+
+                skillsList
+                        .add(new SkillListItem(title, R.drawable.profile_picture));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Card card = new Card(getApplicationContext());
-        CardHeader header = new CardHeader(getApplicationContext());
-        card.addCardHeader(header);
+        gridView = (ExpandableGridView) findViewById(R.id.gvSkills);
+        gridView.setExpanded(true);
+        skillsAdapter = new GridItemAdapter(getApplicationContext(),
+                R.layout.grid_layout, skillsList);
+        gridView.setAdapter(skillsAdapter);
 
-        for (int i = 0; i < 10; i++) {
-            inventoryItems
-                    .add(new ProductListItem("Product", "Description", "Price", 4, "blah", "blah", 6));
-        }
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(getApplicationContext(),
+                        "fsf", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getApplicationContext(), null);
-        inventoryAdapter = new CardItemAdapter(getApplicationContext(),
-                R.layout.card_layout, inventoryItems);
-
-        CardGridView gridView = (CardGridView) findViewById(R.id.myGrid);
-        if (gridView != null) {
-            gridView.setExternalAdapter(inventoryAdapter, mCardArrayAdapter);
-        }
 
         tvBio.setText(bio);
         tvExperiences.setText(experiences);
