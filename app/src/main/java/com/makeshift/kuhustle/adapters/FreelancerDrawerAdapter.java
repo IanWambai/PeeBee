@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.makeshift.kuhustle.R;
-import com.makeshift.kuhustle.classes.FreelancerDrawerViewHolder;
+import com.makeshift.kuhustle.viewholders.FreelancerDrawerViewHolder;
 
 /**
  * Created by Wednesday on 9/15/2015.

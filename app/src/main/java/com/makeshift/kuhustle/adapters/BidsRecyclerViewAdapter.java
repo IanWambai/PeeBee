@@ -19,16 +19,11 @@ import java.util.ArrayList;
 public class BidsRecyclerViewAdapter extends RecyclerView.Adapter<BidsRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<BidListItem> mDataset;
-    private int lastPosition = -1;
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView ivIcon;
-        public TextView tvUsername;
-        public TextView tvMessage;
-        public TextView tvValue;
-        public TextView tvTime;
+        public TextView tvUsername, tvMessage, tvValue, tvTime;
 
         public ViewHolder(View v) {
             super(v);
@@ -47,7 +42,7 @@ public class BidsRecyclerViewAdapter extends RecyclerView.Adapter<BidsRecyclerVi
 
     @Override
     public BidsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                             int viewType) {
+                                                                 int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.bids_list_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;

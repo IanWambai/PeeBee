@@ -21,4 +21,11 @@
     <string name="admin_username">kuhustle</string>
     <string name="admin_password">oranges</string>
 
+    //JobsList flags
+    <integer name="jobs_won">0</integer>
+    <integer name="jobs_posted">1</integer>
+    <integer name="jobs_available">2</integer>
+    <integer name="jobs_matching">3</integer>
+    <integer name="jobs_in_progress">4</integer>
+
 </resources>

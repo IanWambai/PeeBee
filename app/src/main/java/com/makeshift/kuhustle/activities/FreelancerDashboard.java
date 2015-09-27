@@ -98,21 +98,33 @@ public class FreelancerDashboard extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        Bundle b = new Bundle();
+
         switch (v.getId()) {
             case R.id.tvJobsAvailable:
                 i = new Intent(getApplicationContext(), JobsList.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                b.putInt("flag", getResources().getInteger(R.integer.jobs_available));
+                i.putExtras(b);
                 startActivity(i);
                 break;
             case R.id.tvJobsMatching:
                 i = new Intent(getApplicationContext(), JobsList.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                b.putInt("flag", getResources().getInteger(R.integer.jobs_matching));
+                i.putExtras(b);
                 startActivity(i);
                 break;
             case R.id.tvJobsInProgress:
                 i = new Intent(getApplicationContext(), JobsList.class);
+                b.putInt("flag", getResources().getInteger(R.integer.jobs_in_progress));
+                i.putExtras(b);
                 startActivity(i);
                 break;
             case R.id.tvJobsAwarded:
                 i = new Intent(getApplicationContext(), JobsList.class);
+                b.putInt("flag", getResources().getInteger(R.integer.jobs_won));
+                i.putExtras(b);
                 startActivity(i);
                 break;
             case R.id.tvAmountDue:

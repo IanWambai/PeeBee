@@ -21,14 +21,12 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle;
-        public TextView tvMessage;
-        public TextView tvTime;
+        public TextView tvTitle, tvMessage, tvTime;
 
         public ViewHolder(View v) {
             super(v);
 
-            tvTitle= (TextView) v.findViewById(R.id.tvTitle);
+            tvTitle = (TextView) v.findViewById(R.id.tvTitle);
             tvMessage = (TextView) v.findViewById(R.id.tvMessage);
             tvTime = (TextView) v.findViewById(R.id.tvTime);
         }
@@ -40,7 +38,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
     @Override
     public NotificationsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                             int viewType) {
+                                                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;

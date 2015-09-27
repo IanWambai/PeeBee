@@ -1,17 +1,19 @@
 package com.makeshift.kuhustle.constructors;
 
+import java.util.Calendar;
+
 public class JobListItem {
 
     private int id;
     private String jobTitle;
     private String jobDescription;
     private String valueRange;
-    private String timeLeft;
+    private Calendar timeLeft;
     private String numberOfBids;
     private int icon;
 
 
-    public JobListItem(int id, String jobTitle, String jobDescription, String valueRange, String timeLeft, String numberOfBids, int icon) {
+    public JobListItem(int id, String jobTitle, String jobDescription, String valueRange, Calendar timeLeft, String numberOfBids, int icon) {
 
         this.id = id;
         this.jobTitle = jobTitle;
@@ -54,13 +56,6 @@ public class JobListItem {
         this.valueRange = valueRange;
     }
 
-    public String getTimeLeft() {
-        return timeLeft;
-    }
-
-    public void setTimeLeft(String timeLeft) {
-        this.timeLeft = timeLeft;
-    }
 
     public String getNumberOfBids() {
         return numberOfBids;
@@ -70,6 +65,14 @@ public class JobListItem {
         this.numberOfBids = numberOfBids;
     }
 
+    public Calendar getTimeLeft() {
+        return timeLeft;
+    }
+
+    public void setTimeLeft(Calendar timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
     public int getIcon() {
         return icon;
     }
@@ -77,5 +80,6 @@ public class JobListItem {
     public void setIcon(int icon) {
         this.icon = icon;
     }
+
 
 }

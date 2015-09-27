@@ -35,6 +35,12 @@ import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
 
+import static com.makeshift.kuhustle.R.color;
+import static com.makeshift.kuhustle.R.id;
+import static com.makeshift.kuhustle.R.layout;
+import static com.makeshift.kuhustle.R.mipmap;
+import static com.makeshift.kuhustle.R.string;
+
 /**
  * Created by Wednesday on 9/14/2015.
  */
@@ -47,22 +53,21 @@ public class JobsList extends AppCompatActivity {
     private Intent i;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SharedPreferences sp;
+    private int FLAG;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recycler_view_list);
+        setContentView(layout.recycler_view_list);
 
         setUpToolBar();
         setUp();
-
-        FetchJobs fetch = new FetchJobs();
-        fetch.jobState = "jobs/";
-        fetch.execute();
+        getBundle();
+        fetchJobs();
     }
 
     private void setUpToolBar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,22 +78,78 @@ public class JobsList extends AppCompatActivity {
         sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
     }
 
+    private void getBundle() {
+        Bundle b = getIntent().getExtras();
+        FLAG = b.getInt("flag");
+
+        Toast.makeText(getApplicationContext(), String.valueOf(FLAG), Toast.LENGTH_SHORT).show();
+    }
+
+    private void fetchJobs() {
+        FetchJobs fetch = new FetchJobs();
+        String url = null;
+
+        switch (FLAG) {
+            case 0:
+                //Jobs won
+                Toast.makeText(getApplicationContext(), "Coming soon :-)", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                //Jobs posted
+
+                break;
+            case 2:
+                //Jobs available
+
+                break;
+            case 3:
+                //Jobs matching
+                JSONArray skillsArray = new JSONArray();
+                try {
+                    JSONObject skill1 = new JSONObject().put("id", getString(R.string.base_url) + "skills/12/");
+                    JSONObject skill2 = new JSONObject().put("id", getString(R.string.base_url) + "skills/30/");
+                    JSONObject skill3 = new JSONObject().put("id", getString(R.string.base_url) + "skills/15/");
+
+                    skillsArray.put(skill1);
+                    skillsArray.put(skill2);
+                    skillsArray.put(skill3);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String skills = skillsArray.toString().replace("\\", "");
+
+                url = "jobs/?skills_required=" + skills;
+                break;
+            case 4:
+                //Jobs in progress
+
+                break;
+        }
+
+        fetch.url = url;
+        fetch.execute();
+    }
+
     class FetchJobs extends AsyncTask<String, Void, String> {
 
         ArrayList<JobListItem> jobs = new ArrayList<>();
-        public String jobState;
+        public String url;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-            mSwipeRefreshLayout.setColorScheme(R.color.blue, R.color.purple, R.color.green, R.color.orange);
+
+            Toast.makeText(getApplicationContext(), url , Toast.LENGTH_SHORT).show();
+
+            mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(id.swipeRefreshLayout);
+            mSwipeRefreshLayout.setColorScheme(color.blue, color.purple, color.green, color.orange);
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
                 @Override
                 public void onRefresh() {
                     FetchJobs fetch = new FetchJobs();
-                    fetch.jobState = jobState;
+                    fetch.url = url;
                     fetch.execute();
                 }
             });
@@ -96,32 +157,35 @@ public class JobsList extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-
-            String data = null;
+            String response = null;
 
             try {
-                HttpGet httpGet = new HttpGet(getString(R.string.base_url) + jobState);
+                HttpGet httpGet = new HttpGet(getString(string.base_url) + url);
 
-                Log.d("GET REQUEST", "URL: " + getString(R.string.base_url) + jobState + " Header: " + "Bearer " + sp.getString("accessToken", null));
+                Log.d("GET JOBS REQUEST", "URL: " + getString(string.base_url) + url + " Header: " + "Bearer " + sp.getString("accessToken", null));
 
                 httpGet.addHeader("Authorization", "Bearer " + sp.getString("accessToken", null));
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpResponse response = httpClient.execute(httpGet);
+                HttpResponse httpResponse = httpClient.execute(httpGet);
 
-                int status = response.getStatusLine().getStatusCode();
+                int status = httpResponse.getStatusLine().getStatusCode();
 
                 Log.d("GET JOBS STATUS", String.valueOf(status));
 
+                HttpEntity entity = httpResponse.getEntity();
+
                 if (status == 200) {
-                    HttpEntity entity = response.getEntity();
-                    data = EntityUtils.toString(entity);
+                    response = EntityUtils.toString(entity);
                 } else if (status == 401) {
-                    data = "Sorry that access token is unauthorized. (Status 401)";
+                    response = "Sorry that access token is unauthorized. (Status 401)";
+                } else {
+                    response = "Status: " + status + " Response: " + EntityUtils.toString(entity);
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return data;
+            return response;
         }
 
         @Override
@@ -158,12 +222,12 @@ public class JobsList extends AppCompatActivity {
                     boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
                     skillsRequired = jobObj.getJSONArray("skills_required");
 
-                    jobs.add(new JobListItem(id, title, description, budget, deadline, String.valueOf(status), R.mipmap.ic_launcher));
+                    jobs.add(new JobListItem(id, title, description, budget, deadline, String.valueOf(status), mipmap.ic_launcher));
                 }
 
                 mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
-                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                mRecyclerView = (RecyclerView) findViewById(id.recyclerView);
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setHasFixedSize(true);
 
@@ -186,8 +250,6 @@ public class JobsList extends AppCompatActivity {
             }
         }
     }
-
-
 
 
     @Override

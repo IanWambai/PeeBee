@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.activities.PlaceBid;
@@ -33,6 +32,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
 
@@ -198,7 +199,7 @@ public class MainActivityFragment extends Fragment {
                     boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
                     skillsRequired = jobObj.getJSONArray("skills_required");
 
-                    jobs.add(new JobListItem(id, title, description, budget, deadline, String.valueOf(status), R.mipmap.ic_launcher));
+                    jobs.add(new JobListItem(id, title, description, budget, formatTime(deadline), String.valueOf(status), R.mipmap.ic_launcher));
                 }
 
                 mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -227,5 +228,34 @@ public class MainActivityFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
+
+    private Calendar formatTime(String rawTime) {
+        // TODO Auto-generated method stub
+        String spitDate[] = rawTime.split("T");
+        String sDate = spitDate[0];
+        String dateSplit[] = sDate.split("-");
+        String sYear = dateSplit[0];
+        String sMonth = dateSplit[1];
+        String sDay = dateSplit[2];
+
+        int month = Integer.parseInt(sMonth);
+        int day = Integer.parseInt(sDay);
+
+        String splitTime[] = rawTime.split(":");
+        String rawHour = splitTime[0];
+        String hour = rawHour.substring(rawHour.length() - 2, rawHour.length());
+        String minute = splitTime[1];
+
+        int hourInt = Integer.parseInt(hour);
+
+
+        Date dateObj = new Date(Integer.parseInt(sYear.substring(2)) + 100,
+                month - 1, day, hourInt, Integer.parseInt(minute));
+
+        Calendar calender = Calendar.getInstance();
+        calender.setTime(dateObj);
+
+        return calender;
     }
 }
