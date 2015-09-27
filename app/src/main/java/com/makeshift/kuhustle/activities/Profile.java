@@ -182,7 +182,12 @@ public class Profile extends AppCompatActivity {
 
         tvBio.setText(bio);
         tvExperiences.setText(experiences);
-        tvVerified.setText(verified);
+
+        if (verified == "false") {
+            tvVerified.setText("Your Kuhustle account has not been verified");
+        } else {
+            tvVerified.setText("Your account has been verified");
+        }
     }
 
     @Override
