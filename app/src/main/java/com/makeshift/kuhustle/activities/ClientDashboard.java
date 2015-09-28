@@ -32,12 +32,12 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
 
     private Toolbar toolbar;
     private TextView tvBids, tvMilestonesOngoing, tvMilestonesCompleted, tvJobs, tvAmountDue;
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
     private DrawerLayout drawerLayout;
-    RecyclerView mRecyclerView;
-    RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
-    Intent i;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private Intent i;
 
     int icons[] = {R.mipmap.ic_switch, R.mipmap.ic_work, R.mipmap.ic_chat ,R.mipmap.ic_notification};
 

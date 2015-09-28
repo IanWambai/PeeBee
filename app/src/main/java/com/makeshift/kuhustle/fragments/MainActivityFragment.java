@@ -209,6 +209,9 @@ public class MainActivityFragment extends Fragment {
                     boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
                     skillsRequired = jobObj.getJSONArray("skills_required");
 
+
+
+
                     jobs.add(new JobListItem(id, title, description, budget, formatTime(bidEndDate), status, R.mipmap.ic_launcher));
                 }
 
@@ -239,6 +242,7 @@ public class MainActivityFragment extends Fragment {
                 );
 
                 mSwipeRefreshLayout.setRefreshing(false);
+                progressDialog.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

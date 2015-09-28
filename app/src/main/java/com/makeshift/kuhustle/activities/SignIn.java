@@ -1,18 +1,20 @@
 package com.makeshift.kuhustle.activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.makeshift.kuhustle.R;
+import com.makeshift.kuhustle.dialogs.LoadingDialog;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -76,9 +79,10 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
     private static final int RC_SIGN_IN = 0;
 
-    private SignInButton bGoogleLogin;
-    private LoginButton bFacebookLogin;
-    private TwitterLoginButton bTwitterLogin;
+    private Button bGoogleLogin, bFacebookLogin,
+            bTwitterLogin;
+    private LoginButton bFacebookCoreLogin;
+    private TwitterLoginButton bTwitterCoreLogin;
 
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager callbackManager;
@@ -91,7 +95,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
     private String googleToken, facebookToken, twitterToken;
 
-    private ProgressDialog progressDialog;
+    private LoadingDialog progressDialog;
     private SharedPreferences sp;
     private Intent i;
 
@@ -128,7 +132,6 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
     private void setUp() {
         sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-        progressDialog = new ProgressDialog(this);
     }
 
     private void checkSignIn() {
@@ -147,7 +150,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
     private void setUpGooglePlus() {
         // TODO Auto-generated method stub
-        bGoogleLogin = (SignInButton) findViewById(R.id.bGoogleLogin);
+        bGoogleLogin = (Button) findViewById(R.id.bGoogleLogin);
         bGoogleLogin.setOnClickListener(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -157,16 +160,18 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
 
     private void setUpFacebook() {
         callbackManager = CallbackManager.Factory.create();
-        bFacebookLogin = (LoginButton) findViewById(R.id.bFacebookLogin);
-        bFacebookLogin.setReadPermissions(Arrays.asList("public_profile", "email"));
-        bFacebookLogin.registerCallback(callbackManager,
+
+        bFacebookCoreLogin = (LoginButton) findViewById(R.id.bFacebookCoreLogin);
+        bFacebookCoreLogin.setReadPermissions(Arrays.asList("public_profile", "email"));
+        bFacebookCoreLogin.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         facebookToken = loginResult.getAccessToken().getToken();
 
-                        progressDialog.setMessage("Getting your Facebook information");
-                        progressDialog.setCancelable(false);
+                        progressDialog = new LoadingDialog(SignIn.this);
+                        progressDialog.getWindow().setBackgroundDrawable(
+                                new ColorDrawable(Color.TRANSPARENT));
                         progressDialog.show();
                         requestFacebookData();
                     }
@@ -184,15 +189,24 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
                         System.out.println("Login unsuccessful!");
                     }
                 });
+
+        bFacebookLogin = (Button) findViewById(R.id.bFacebookLogin);
+        bFacebookLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bFacebookCoreLogin.performClick();
+            }
+        });
     }
 
     private void setUpTwitter() {
-        bTwitterLogin = (TwitterLoginButton) findViewById(R.id.bTwitterLogin);
-        bTwitterLogin.setCallback(new Callback<TwitterSession>() {
+        bTwitterCoreLogin = (TwitterLoginButton) findViewById(R.id.bTwitterCoreLogin);
+        bTwitterCoreLogin.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                progressDialog.setMessage("Getting your Twitter information");
-                progressDialog.setCancelable(false);
+                progressDialog = new LoadingDialog(SignIn.this);
+                progressDialog.getWindow().setBackgroundDrawable(
+                        new ColorDrawable(Color.TRANSPARENT));
                 progressDialog.show();
 
                 final TwitterSession session = Twitter.getSessionManager().getActiveSession();
@@ -222,6 +236,14 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
             @Override
             public void failure(TwitterException exception) {
                 Toast.makeText(getApplicationContext(), "Twitter login failed with error: " + exception.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        bTwitterLogin = (Button) findViewById(R.id.bTwitterLogin);
+        bTwitterLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bTwitterCoreLogin.performClick();
             }
         });
     }
@@ -331,7 +353,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        bTwitterLogin.onActivityResult(requestCode, resultCode, data);
+        bTwitterCoreLogin.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -344,10 +366,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         isSignedInToGPlus = isSignedIn;
 
         if (isSignedIn) {
-            setGooglePlusButtonText(bGoogleLogin, "Sign out");
             new GetGoogleProfileInformation().execute();
-        } else {
-            setGooglePlusButtonText(bGoogleLogin, "Sign in");
         }
     }
 
@@ -373,8 +392,9 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog.setMessage("Getting your Google+ information");
-            progressDialog.setCancelable(false);
+            progressDialog = new LoadingDialog(SignIn.this);
+            progressDialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(Color.TRANSPARENT));
             progressDialog.show();
         }
 

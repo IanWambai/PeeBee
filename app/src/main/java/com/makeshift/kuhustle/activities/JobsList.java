@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,6 +24,7 @@ import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.adapters.JobsRecyclerViewAdapter;
 import com.makeshift.kuhustle.classes.RecyclerItemClickListener;
 import com.makeshift.kuhustle.constructors.JobListItem;
+import com.makeshift.kuhustle.dialogs.LoadingDialog;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -59,6 +62,7 @@ public class JobsList extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SharedPreferences sp;
     private int FLAG;
+    private LoadingDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -158,8 +162,10 @@ public class JobsList extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
+            progressDialog = new LoadingDialog(JobsList.this);
+            progressDialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(Color.TRANSPARENT));
+            progressDialog.show();
 
             mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(id.swipeRefreshLayout);
             mSwipeRefreshLayout.setColorScheme(color.blue, color.purple, color.green, color.orange);
@@ -257,13 +263,14 @@ public class JobsList extends AppCompatActivity {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Toast.makeText(getApplicationContext(), jobs.get(position).getJobTitle() + " " + jobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
-                                i = new Intent(getApplicationContext(), PlaceBid.class);
+                                i = new Intent(getApplicationContext(), JobView.class);
                                 startActivity(i);
                             }
                         })
                 );
 
                 mSwipeRefreshLayout.setRefreshing(false);
+                progressDialog.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

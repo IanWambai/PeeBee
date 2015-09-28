@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -23,6 +25,7 @@ import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.adapters.GridItemAdapter;
 import com.makeshift.kuhustle.classes.ExpandableGridView;
 import com.makeshift.kuhustle.constructors.SkillListItem;
+import com.makeshift.kuhustle.dialogs.LoadingDialog;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -52,6 +55,7 @@ public class Profile extends AppCompatActivity {
     private GridItemAdapter skillsAdapter;
     private ArrayList<SkillListItem> skillsList;
     private ExpandableGridView gridView;
+    private LoadingDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,8 +102,16 @@ public class Profile extends AppCompatActivity {
     class GetProfile extends AsyncTask<String, Void, String> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new LoadingDialog(Profile.this);
+            progressDialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(Color.TRANSPARENT));
+            progressDialog.show();
+        }
 
+        @Override
+        protected String doInBackground(String... params) {
             String username = params[0];
             String response = null;
 
@@ -141,7 +153,7 @@ public class Profile extends AppCompatActivity {
                 String experiences = resultObj.getString("experiences");
 
                 populateCards(username, url, avatar, bio, verified, skills, experiences);
-
+                progressDialog.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

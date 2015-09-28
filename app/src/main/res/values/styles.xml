@@ -9,12 +9,6 @@
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="titleTextAppearance">@style/TextAppearance.Widget.Event.Toolbar.Title</item>
-    </style>
-
-    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textStyle">normal</item>
-        <item name="android:gravity">center</item>
     </style>
 
     <style name="tabLayoutStyle" parent="Widget.Design.TabLayout">
@@ -37,13 +31,6 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
-    </style>
-
-    <style name="loginButtons" parent="AppTheme">
-        <item name="android:layout_width">250dp</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:clickable">true</item>
     </style>
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">

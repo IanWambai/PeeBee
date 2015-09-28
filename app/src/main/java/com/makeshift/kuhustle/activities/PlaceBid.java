@@ -26,6 +26,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -108,11 +110,34 @@ public class PlaceBid extends AppCompatActivity {
         spDuration = (Spinner) findViewById(R.id.spDuration);
         spDuration.setAdapter(spinnerAdapter);
 
+
+        String budget = null;
+
+        if (value.contains("1")) {
+            budget = "Ksh.10,000 - Ksh.50,000";
+        } else if (value.contains("2")) {
+            budget = "Ksh.50,000 - Ksh.100,000";
+        } else if (value.contains("3")) {
+            budget = "Ksh.100,000 - Ksh.200,000";
+        } else if (value.contains("4")) {
+            budget = "Ksh.200,000 - Ksh.500,000";
+        } else if (value.contains("5")) {
+            budget = "Ksh.500,000 - Ksh.1,000,000";
+        } else if (value.contains("6")) {
+            budget = "Above Ksh.1,000,000";
+        }
+
         tvTitle.setText(title);
         tvDescription.setText(description);
-        tvValue.setText(value);
-        tvBids.setText(bids + "");
-        tvTimeLeft.setText(time + "");
+        tvValue.setText(budget);
+        tvBids.setText("Number of bids made: " + bids);
+
+        int daysToEnd = Days.daysBetween(new DateTime(), new DateTime(time)).getDays();
+        if (daysToEnd > 0) {
+            tvTimeLeft.setText(String.valueOf(daysToEnd) + " days left to bid");
+        } else {
+            tvTimeLeft.setText("Bidding is closed");
+        }
     }
 
     class PostBid extends AsyncTask<String, Void, String> {
@@ -123,7 +148,6 @@ public class PlaceBid extends AppCompatActivity {
             String amount = params[0];
             String duration = params[1];
             String proposal = params[2];
-
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(getString(R.string.base_url) + "jobs/" + String.valueOf(id) + "/bids/");

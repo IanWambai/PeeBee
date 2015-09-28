@@ -45,7 +45,7 @@
                             android:gravity="left"
                             android:text="Project name"
                             android:textColor="@color/colorSecondary"
-                            android:textSize="20dp" />
+                            android:textSize="24dp" />
 
                         <TextView
                             android:id="@+id/tvDescription"
@@ -64,14 +64,29 @@
                             android:background="#555"
                             android:gravity="center" />
 
-                        <TextView
-                            android:id="@+id/tvValue"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="Ksh.30,000 - Ksh,50,000"
-                            android:textColor="#555"
-                            android:textSize="16dp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="Budget: "
+                                android:textColor="@color/colorSecondary"
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="Ksh.30,000 - Ksh,50,000"
+                                android:textColor="#555"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="fill_parent"
@@ -81,14 +96,28 @@
                             android:background="#555"
                             android:gravity="center" />
 
-                        <TextView
-                            android:id="@+id/tvBids"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="9 bids made so far"
-                            android:textColor="#555"
-                            android:textSize="16dp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="Bids: "
+                                android:textColor="@color/colorSecondary"
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvBids"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="9 bids made so far"
+                                android:textColor="#555"
+                                android:textSize="16dp" />
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="fill_parent"
@@ -98,15 +127,29 @@
                             android:background="#555"
                             android:gravity="center" />
 
-                        <TextView
-                            android:id="@+id/tvTimeLeft"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:gravity="left"
-                            android:text="8 days remeining"
-                            android:textColor="#555"
-                            android:textSize="16dp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="Time: "
+                                android:textColor="@color/colorSecondary"
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvTimeLeft"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:gravity="left"
+                                android:text="8 days remeining"
+                                android:textColor="#555"
+                                android:textSize="16dp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 

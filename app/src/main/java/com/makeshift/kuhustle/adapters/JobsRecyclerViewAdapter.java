@@ -73,9 +73,9 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
         } else if (mDataset.get(position).getValueRange().contains("4")) {
             budget = "Ksh.200,000 - Ksh.500,000";
         } else if (mDataset.get(position).getValueRange().contains("5")) {
-            budget = "Above Ksh.500,000";
+            budget = "Ksh.500,000 - Ksh.1,000,000";
         } else if (mDataset.get(position).getValueRange().contains("6")) {
-
+            budget = "Above Ksh.1,000,000";
         }
 
         holder.tvValue.setText(budget);
