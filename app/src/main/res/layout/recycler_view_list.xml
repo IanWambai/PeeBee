@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
+
     <include layout="@layout/recycler_view" />
 
 </LinearLayout>

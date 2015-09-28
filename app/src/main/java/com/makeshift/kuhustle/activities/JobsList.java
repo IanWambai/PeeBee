@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,8 @@ public class JobsList extends AppCompatActivity {
     private SharedPreferences sp;
     private int FLAG;
     private LoadingDialog progressDialog;
+    private TextView tvToolBarText;
+    private ImageView ivNothingFound;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class JobsList extends AppCompatActivity {
         try {
             activityInfo = getPackageManager().getActivityInfo(
                     getComponentName(), PackageManager.GET_META_DATA);
-            TextView tvToolBarText = (TextView) toolbar.findViewById(R.id.tvToolbarText);
+            tvToolBarText = (TextView) toolbar.findViewById(R.id.tvToolbarText);
             tvToolBarText.setText(activityInfo.loadLabel(getPackageManager())
                     .toString());
         } catch (PackageManager.NameNotFoundException e) {
@@ -96,13 +99,13 @@ public class JobsList extends AppCompatActivity {
 
     private void setUp() {
         sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        ivNothingFound = (ImageView) findViewById(id.ivNothingFound);
+        ivNothingFound.setVisibility(View.INVISIBLE);
     }
 
     private void getBundle() {
         Bundle b = getIntent().getExtras();
         FLAG = b.getInt("flag");
-
-        Toast.makeText(getApplicationContext(), String.valueOf(FLAG), Toast.LENGTH_SHORT).show();
     }
 
     private void fetchJobs() {
@@ -111,22 +114,19 @@ public class JobsList extends AppCompatActivity {
 
         switch (FLAG) {
             case 0:
-                //Jobs won
-                Toast.makeText(getApplicationContext(), "Coming soon :-)", Toast.LENGTH_SHORT).show();
+                tvToolBarText.setText("Jobs you've bidded for");
+                url = "jobs/?role=freelancer";
                 break;
             case 1:
-                //Jobs posted
-                toolbar.setTitle("Jobs open");
-                url = "jobs/?client=1"; //Get client ID
+                tvToolBarText.setText("Jobs you've posted");
+                url = "jobs/?role=client";
                 break;
             case 2:
-                //Jobs available
-                toolbar.setTitle("Jobs available");
+                tvToolBarText.setText("Jobs available");
                 url = "jobs/?status=open";
                 break;
             case 3:
-                //Jobs matching
-                toolbar.setTitle("Jobs matching your skills");
+                tvToolBarText.setText("Jobs matching your skills");
                 JSONArray skillsArray = new JSONArray();
                 try {
                     JSONObject skill1 = new JSONObject().put("id", getString(R.string.base_url) + "skills/12/");
@@ -145,8 +145,8 @@ public class JobsList extends AppCompatActivity {
                 url = "jobs/?skills_required=" + skills;
                 break;
             case 4:
-                //Jobs won
-
+                tvToolBarText.setText("Jobs you've won");
+                url = "jobs/?role=freelancer&status=won";
                 break;
         }
 
@@ -250,24 +250,28 @@ public class JobsList extends AppCompatActivity {
                     jobs.add(new JobListItem(id, title, description, budget, formatTime(bidEndDate), status, mipmap.ic_launcher));
                 }
 
-                mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
+                mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 mRecyclerView = (RecyclerView) findViewById(id.recyclerView);
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setHasFixedSize(true);
-
-                mAdapter = new JobsRecyclerViewAdapter(jobs);
-                mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Toast.makeText(getApplicationContext(), jobs.get(position).getJobTitle() + " " + jobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
-                                i = new Intent(getApplicationContext(), JobView.class);
-                                startActivity(i);
-                            }
-                        })
-                );
+                
+                if (jobs.size() > 0) {
+                    mAdapter = new JobsRecyclerViewAdapter(jobs);
+                    mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
+                    mRecyclerView.addOnItemTouchListener(
+                            new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    Toast.makeText(getApplicationContext(), jobs.get(position).getJobTitle() + " " + jobs.get(position).getJobDescription(), Toast.LENGTH_SHORT).show();
+                                    i = new Intent(getApplicationContext(), JobView.class);
+                                    startActivity(i);
+                                }
+                            })
+                    );
+                } else {
+                    ivNothingFound.setVisibility(View.VISIBLE);
+                }
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 progressDialog.dismiss();

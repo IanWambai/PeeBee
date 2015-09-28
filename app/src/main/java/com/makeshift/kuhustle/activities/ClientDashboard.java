@@ -39,7 +39,7 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
     private RecyclerView.LayoutManager mLayoutManager;
     private Intent i;
 
-    int icons[] = {R.mipmap.ic_switch, R.mipmap.ic_work, R.mipmap.ic_chat ,R.mipmap.ic_notification};
+    int icons[] = {R.mipmap.ic_switch, R.mipmap.ic_work, R.mipmap.ic_chat, R.mipmap.ic_notification};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
             activityInfo = getPackageManager().getActivityInfo(
                     getComponentName(), PackageManager.GET_META_DATA);
             TextView tvToolBarText = (TextView) toolbar.findViewById(R.id.tvToolbarText);
-            tvToolBarText.setText( activityInfo.loadLabel(getPackageManager())
+            tvToolBarText.setText(activityInfo.loadLabel(getPackageManager())
                     .toString());
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -189,6 +189,9 @@ public class ClientDashboard extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.tvJobs:
                 i = new Intent(getApplicationContext(), JobsList.class);
+                Bundle b = new Bundle();
+                b.putInt("flag", getResources().getInteger(R.integer.jobs_posted));
+                i.putExtras(b);
                 startActivity(i);
                 break;
             case R.id.tvAmountDue:

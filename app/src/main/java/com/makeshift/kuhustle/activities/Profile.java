@@ -61,7 +61,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
-        username = "medhurst_lew";
+        username = getString(R.string.test_username);
 
         setUpToolBar();
         setUp();
@@ -216,7 +216,8 @@ public class Profile extends AppCompatActivity {
                 finish();
                 break;
             case R.id.mEditProfile:
-
+                i = new Intent(getApplicationContext(), EditProfile.class);
+                startActivity(i);
                 break;
         }
         return super.onOptionsItemSelected(item);

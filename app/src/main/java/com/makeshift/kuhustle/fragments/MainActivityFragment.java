@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.activities.PlaceBid;
@@ -55,6 +56,7 @@ public class MainActivityFragment extends Fragment {
     private SharedPreferences sp;
     private View rootView;
     private LoadingDialog progressDialog;
+    private ImageView ivNothingFound;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -71,9 +73,11 @@ public class MainActivityFragment extends Fragment {
     private View populatePages(LayoutInflater inflater, ViewGroup container) {
 
         Bundle args = getArguments();
-
         rootView = inflater.inflate(
                 R.layout.recycler_view, container, false);
+
+        ivNothingFound = (ImageView) rootView.findViewById(R.id.ivNothingFound);
+        ivNothingFound.setVisibility(View.INVISIBLE);
 
         String jobState = null;
 
@@ -98,7 +102,6 @@ public class MainActivityFragment extends Fragment {
         fetch.execute();
 
         return rootView;
-
     }
 
     class FetchJobs extends AsyncTask<String, Void, String> {
@@ -231,31 +234,35 @@ public class MainActivityFragment extends Fragment {
                     jobs.add(new JobListItem(id, title, description, budget, formatTime(bidEndDate), status, R.mipmap.ic_launcher));
                 }
 
-                mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
 
+                mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
                 mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setHasFixedSize(true);
 
-                mAdapter = new JobsRecyclerViewAdapter(jobs);
-                mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
-                                Bundle b = new Bundle();
-                                b.putInt("id", jobs.get(position).getId());
-                                b.putString("title", jobs.get(position).getJobTitle());
-                                b.putString("description", jobs.get(position).getJobDescription());
-                                b.putString("value", jobs.get(position).getValueRange());
-                                b.putInt("bids", jobs.get(position).getNumberOfBids());
-                                b.putLong("time", jobs.get(position).getTimeLeft().getTime().getTime());
-                                i.putExtras(b);
-                                startActivity(i);
-                            }
-                        })
-                );
+                if (jobs.size() > 0) {
+                    mAdapter = new JobsRecyclerViewAdapter(jobs);
+                    mRecyclerView.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
+                    mRecyclerView.addOnItemTouchListener(
+                            new RecyclerItemClickListener(getActivity().getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    i = new Intent(getActivity().getApplicationContext(), PlaceBid.class);
+                                    Bundle b = new Bundle();
+                                    b.putInt("id", jobs.get(position).getId());
+                                    b.putString("title", jobs.get(position).getJobTitle());
+                                    b.putString("description", jobs.get(position).getJobDescription());
+                                    b.putString("value", jobs.get(position).getValueRange());
+                                    b.putInt("bids", jobs.get(position).getNumberOfBids());
+                                    b.putLong("time", jobs.get(position).getTimeLeft().getTime().getTime());
+                                    i.putExtras(b);
+                                    startActivity(i);
+                                }
+                            })
+                    );
+                } else {
+                    ivNothingFound.setVisibility(View.VISIBLE);
+                }
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 progressDialog.dismiss();

@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 public class FreelancerDashboard extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
-    private TextView tvJobsAvailable, tvJobsMatching, tvJobsInProgress, tvJobsAwarded, tvAmountDue;
+    private TextView tvJobsAvailable, tvJobsMatching, tvJobsBiddedFor, tvJobsAwarded, tvAmountDue;
     Intent i;
 
     @Override
@@ -46,7 +46,7 @@ public class FreelancerDashboard extends AppCompatActivity implements View.OnCli
             activityInfo = getPackageManager().getActivityInfo(
                     getComponentName(), PackageManager.GET_META_DATA);
             TextView tvToolBarText = (TextView) toolbar.findViewById(R.id.tvToolbarText);
-            tvToolBarText.setText( activityInfo.loadLabel(getPackageManager())
+            tvToolBarText.setText(activityInfo.loadLabel(getPackageManager())
                     .toString());
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -56,19 +56,19 @@ public class FreelancerDashboard extends AppCompatActivity implements View.OnCli
     private void setUp() {
         tvJobsAvailable = (TextView) findViewById(R.id.tvJobsAvailable);
         tvJobsMatching = (TextView) findViewById(R.id.tvJobsMatching);
-        tvJobsInProgress = (TextView) findViewById(R.id.tvJobsInProgress);
+        tvJobsBiddedFor = (TextView) findViewById(R.id.tvJobsBiddedFor);
         tvJobsAwarded = (TextView) findViewById(R.id.tvJobsAwarded);
         tvAmountDue = (TextView) findViewById(R.id.tvAmountDue);
 
         tvJobsAvailable.setOnClickListener(this);
         tvJobsMatching.setOnClickListener(this);
-        tvJobsInProgress.setOnClickListener(this);
+        tvJobsBiddedFor.setOnClickListener(this);
         tvJobsAwarded.setOnClickListener(this);
         tvAmountDue.setOnClickListener(this);
 
         countUp(tvJobsAvailable, 34);
         countUp(tvJobsMatching, 13);
-        countUp(tvJobsInProgress, 23);
+        countUp(tvJobsBiddedFor, 23);
         countUp(tvJobsAwarded, 10);
         countUp(tvAmountDue, 234000);
     }
@@ -128,9 +128,9 @@ public class FreelancerDashboard extends AppCompatActivity implements View.OnCli
                 i.putExtras(b);
                 startActivity(i);
                 break;
-            case R.id.tvJobsInProgress:
+            case R.id.tvJobsBiddedFor:
                 i = new Intent(getApplicationContext(), JobsList.class);
-                b.putInt("flag", getResources().getInteger(R.integer.jobs_in_progress));
+                b.putInt("flag", getResources().getInteger(R.integer.jobs_bidded));
                 i.putExtras(b);
                 startActivity(i);
                 break;
@@ -144,11 +144,5 @@ public class FreelancerDashboard extends AppCompatActivity implements View.OnCli
 
                 break;
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
     }
 }
