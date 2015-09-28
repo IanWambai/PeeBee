@@ -16,8 +16,3 @@
 #   public *;
 #}
 -include ../proguard-com.twitter.sdk.android.twitter.txt
--keepclasseswithmembernames class * {
-    native <methods>;
-}
-
--keep class android.support.v8.renderscript.** { *; }

@@ -3,6 +3,8 @@ package com.makeshift.kuhustle.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import com.makeshift.kuhustle.activities.PlaceBid;
 import com.makeshift.kuhustle.adapters.JobsRecyclerViewAdapter;
 import com.makeshift.kuhustle.classes.RecyclerItemClickListener;
 import com.makeshift.kuhustle.constructors.JobListItem;
+import com.makeshift.kuhustle.dialogs.LoadingDialog;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -51,13 +54,13 @@ public class MainActivityFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SharedPreferences sp;
     private View rootView;
+    private LoadingDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         setUp();
-
         return populatePages(inflater, container);
     }
 
@@ -107,6 +110,11 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new LoadingDialog(getActivity());
+            progressDialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(Color.TRANSPARENT));
+            progressDialog.show();
+
             mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
             mSwipeRefreshLayout.setColorScheme(R.color.blue, R.color.purple, R.color.green, R.color.orange);
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -133,6 +141,8 @@ public class MainActivityFragment extends Fragment {
                     fetch.execute(jobState);
                 }
             });
+
+
         }
 
         @Override
