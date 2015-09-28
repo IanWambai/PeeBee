@@ -207,10 +207,26 @@ public class MainActivityFragment extends Fragment {
                     boolean userHasBid = jobObj.getBoolean("user_has_bid");
                     boolean userIsClient = jobObj.getBoolean("user_is_client");
                     boolean isAcceptingBids = jobObj.getBoolean("is_accepting_bids");
+
                     skillsRequired = jobObj.getJSONArray("skills_required");
-
-
-
+//                    String skill = (String) new JSONObject(((JSONObject) skillsRequired.get(0)).getString("category")).get("url");
+//                    int icon = 0;
+//
+//                    if (skill.contains("1")) {
+//                        icon = R.mipmap.ic_launcher;
+//                    } else if (skill.contains("1")) {
+//                        icon = R.mipmap.ic_chat;
+//                    } else if (skill.contains("2")) {
+//                        icon = R.mipmap.ic_dashboard;
+//                    } else if (skill.contains("3")) {
+//                        icon = R.mipmap.ic_notification;
+//                    } else if (skill.contains("4")) {
+//                        icon = R.mipmap.ic_profile;
+//                    } else if (skill.contains("5")) {
+//                        icon = R.mipmap.ic_work;
+//                    } else if (skill.contains("6")) {
+//                        icon = R.mipmap.ic_switch;
+//                    }
 
                     jobs.add(new JobListItem(id, title, description, budget, formatTime(bidEndDate), status, R.mipmap.ic_launcher));
                 }
