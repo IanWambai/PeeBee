@@ -32,6 +32,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Profile" />
         <activity
+            android:name=".activities.EditProfile"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Edit profile"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.PlaceBid"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Place a bid"

@@ -22,10 +22,13 @@ import com.makeshift.kuhustle.R;
 import com.makeshift.kuhustle.adapters.SpinnerAdapter;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +37,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Wednesday on 9/14/2015.
@@ -43,7 +49,6 @@ public class PlaceJob extends AppCompatActivity {
 
     private EditText etJobTitle, etDescription;
     private Spinner spDuration;
-
     private SharedPreferences sp;
 
     @Override
@@ -53,7 +58,6 @@ public class PlaceJob extends AppCompatActivity {
 
         setUpToolbar();
         setUp();
-
     }
 
     private void setUpToolbar() {
@@ -105,30 +109,31 @@ public class PlaceJob extends AppCompatActivity {
             String skills = params[5];
 
             HttpClient httpClient = new DefaultHttpClient();
-//            HttpPost httpPost = new HttpPost(getString(R.string.base_url) + "jobs/");
-
-            String url = "http://neptune.kuhustle.com/api/v1/jobs?\"title\"=\"title\"&\"description\"=\"description\"&\"status\"=\"1\"&\"category\"=\"http://neptune.kuhustle.com/api/v1/categories/1\"&\"budget\"=\"http://neptune.kuhustle.com/api/v1/categories/1\"&\"skills_required\"=[{\"id\":\"http://neptune.kuhustle.com/api/v1/skills/12/\"},{\"id\":\"http://neptune.kuhustle.com/api/v1/skills/12/\"},{\"id\":\"http://neptune.kuhustle.com/api/v1/skills/12/\"}]";
-
-            HttpPost httpPost = new HttpPost(url);
+            HttpPost httpPost = new HttpPost(getString(R.string.base_url) + "jobs/");
             httpPost.addHeader("Authorization", "Bearer " + sp.getString("accessToken", null));
 
-//            BasicNameValuePair titleBasicNameValuePair = new BasicNameValuePair("title", title);
-//            BasicNameValuePair descriptionBasicNameValuePair = new BasicNameValuePair("description", description);
-//            BasicNameValuePair statusBasicNameValuePair = new BasicNameValuePair("status", status);
-//            BasicNameValuePair categoryIdBasicNameValuePair = new BasicNameValuePair("category", categoryId);
-//            BasicNameValuePair budgetIdBasicNameValuePair = new BasicNameValuePair("budget", budgetId);
-//            BasicNameValuePair skillsBasicNameValuePair = new BasicNameValuePair("skills_required", skills);
-//
-//            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
-//            nameValuePairList.add(titleBasicNameValuePair);
-//            nameValuePairList.add(descriptionBasicNameValuePair);
-//            nameValuePairList.add(statusBasicNameValuePair);
-//            nameValuePairList.add(categoryIdBasicNameValuePair);
-//            nameValuePairList.add(budgetIdBasicNameValuePair);
-//            nameValuePairList.add(skillsBasicNameValuePair);
+            BasicNameValuePair titleBasicNameValuePair = new BasicNameValuePair("title", title);
+            BasicNameValuePair descriptionBasicNameValuePair = new BasicNameValuePair("description", description);
+            BasicNameValuePair statusBasicNameValuePair = new BasicNameValuePair("status", status);
+            BasicNameValuePair categoryIdBasicNameValuePair = new BasicNameValuePair("category", categoryId);
+            BasicNameValuePair budgetIdBasicNameValuePair = new BasicNameValuePair("budget", budgetId);
+            BasicNameValuePair skillsBasicNameValuePair = new BasicNameValuePair("skills_required", skills);
 
-//                UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
-//                httpPost.setEntity(urlEncodedFormEntity);
+            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+            nameValuePairList.add(titleBasicNameValuePair);
+            nameValuePairList.add(descriptionBasicNameValuePair);
+            nameValuePairList.add(statusBasicNameValuePair);
+            nameValuePairList.add(categoryIdBasicNameValuePair);
+            nameValuePairList.add(budgetIdBasicNameValuePair);
+            nameValuePairList.add(skillsBasicNameValuePair);
+
+            UrlEncodedFormEntity urlEncodedFormEntity = null;
+            try {
+                urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            httpPost.setEntity(urlEncodedFormEntity);
 
             try {
                 HttpResponse httpResponse = httpClient.execute(httpPost);
