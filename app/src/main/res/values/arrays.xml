@@ -1,44 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="freelancer_navigation">
-        <item>Profile</item>
-        <item>Dashboard</item>
-        <item>Switch to client</item>
-        <item>Jobs</item>
-        <item>Messages</item>
-        <item>Notifications</item>
-    </string-array>
-    <string-array name="freelancer_navigation_descriptions">
-        <item>View your Kuhustle profile</item>
-        <item>Accesss your dashboard</item>
-        <item>Post a job</item>
-        <item>View jobs you\'ve won</item>
-        <item>Messages from your clients</item>
-        <item>Your notifications</item>
-    </string-array>
-    <string-array name="client_navigation">
-        <item>Switch to freelancer</item>
-        <item>Jobs</item>
-        <item>Messages</item>
-        <item>Notifications</item>
-    </string-array>
-    <string-array name="client_navigation_descriptions">
-        <item>View available jobs</item>
-        <item>View jobs you\'ve posted</item>
-        <item>Messages with developers</item>
-        <item>Your notifications</item>
-    </string-array>
-    <string-array name="durations">
-        <item>Days</item>
-        <item>Weeks</item>
-        <item>Months</item>
-    </string-array>
-    <string-array name="price_ranges">
-        <item>Ksh.5,000 - Ksh.10,000</item>
-        <item>Ksh.10,000 - Ksh.50,000</item>
-        <item>Ksh.50,000 - Ksh.100,000</item>
-        <item>Ksh.100,000 - Ksh.500,000</item>
-        <item>Greater than Ksh,500,000</item>
-    </string-array>
 </resources>

@@ -1,83 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.makeshift.kuhustle">
+    package="com.toe.firstcustoma">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
+        android:name=".classes.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        tools:replace="android:icon, android:label, android:theme">
+        android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.SignIn"
-            android:label="Sign in">
+            android:name=".activities.Stores"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".activities.Profile"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Profile" />
-        <activity
-            android:name=".activities.EditProfile"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Edit profile"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.PlaceBid"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Place a bid"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.FreelancerDashboard"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Freelancer Dashboard" />
-        <activity
-            android:name=".activities.ClientDashboard"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Client Dashboard" />
-        <activity
-            android:name=".activities.JobsList"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Jobs" />
-        <activity
-            android:name=".activities.PlaceJob"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Post a new job"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.MessagesList"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Conversations" />
-        <activity
-            android:name=".activities.NotificationsList"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Notifications" />
-        <activity
-            android:name=".activities.BidsList"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Bids" />
-        <activity
-            android:name=".activities.JobView"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Job" />
-        <activity
-            android:name=".activities.MilestonesList"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Milestones" />
+        <!--<activity-->
+        <!--android:name=".activities.PhoneNumber"-->
+        <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+        <!--android:label="Phone Number"-->
+        <!--android:windowSoftInputMode="stateHidden" />-->
+
+        //Facebook
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -85,11 +36,35 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="c28f8f479c5c6c55108fc022f8b9a90ff17e7b40" />
-        <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        //Fabric
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="c28f8f479c5c6c55108fc022f8b9a90ff17e7b40" />
+
+        //Parse
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="pviDvjnclgBLiqVPT3GNTqMSsrBdazAyS9Fr76fV" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="e9uCPSxhyWDW7eIq6LfkmuanKUfNycrIdhcWCRWY" />
+
+        //Sugar ORM
+        <meta-data
+            android:name="DATABASE"
+            android:value="first_customa.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.toe.firstcustoma" />
     </application>
 
 </manifest>
