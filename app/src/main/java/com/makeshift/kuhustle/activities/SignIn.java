@@ -32,7 +32,6 @@ import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
@@ -141,7 +140,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
             i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else {
-            new GetDevelopmentToken().execute();
+//            new GetDevelopmentToken().execute();
             setUpGooglePlus();
             setUpFacebook();
             setUpTwitter();
@@ -370,18 +369,6 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         }
     }
 
-    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
-        for (int i = 0; i < signInButton.getChildCount(); i++) {
-            View v = signInButton.getChildAt(i);
-
-            if (v instanceof TextView) {
-                TextView tv = (TextView) v;
-                tv.setText(buttonText);
-                return;
-            }
-        }
-    }
-
     private class GetGoogleProfileInformation extends AsyncTask<Void, Void, String> {
 
         private String personName;
@@ -603,9 +590,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener, G
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            //If the result is OK then:
-//            i = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(i);
+            i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
         }
     }
