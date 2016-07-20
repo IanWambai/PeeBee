@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "710686909052",
+    "firebase_url": "https://sendychat.firebaseio.com",
+    "project_id": "sendychat",
+    "storage_bucket": "sendychat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710686909052:android:05954758833f3dd3",
+        "android_client_info": {
+          "package_name": "com.toe.peebee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710686909052-0jkhbnbh7lid0nkbjrlhlr5kig0fphmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkbeYaf9MKLoCSykOOa10rGJjIrNK0B6E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

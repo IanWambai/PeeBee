@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.toe.firstcustoma">
+    package="com.toe.peebee">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
-        android:name=".classes.Application"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.Stores"
+            android:name=".activities.Chats"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,44 +26,6 @@
         <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
         <!--android:label="Phone Number"-->
         <!--android:windowSoftInputMode="stateHidden" />-->
-
-        //Facebook
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="Facebook login"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
-        //Fabric
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="c28f8f479c5c6c55108fc022f8b9a90ff17e7b40" />
-
-        //Parse
-        <meta-data
-            android:name="com.parse.APPLICATION_ID"
-            android:value="pviDvjnclgBLiqVPT3GNTqMSsrBdazAyS9Fr76fV" />
-        <meta-data
-            android:name="com.parse.CLIENT_KEY"
-            android:value="e9uCPSxhyWDW7eIq6LfkmuanKUfNycrIdhcWCRWY" />
-
-        //Sugar ORM
-        <meta-data
-            android:name="DATABASE"
-            android:value="first_customa.db" />
-        <meta-data
-            android:name="VERSION"
-            android:value="1" />
-        <meta-data
-            android:name="QUERY_LOG"
-            android:value="true" />
-        <meta-data
-            android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.toe.firstcustoma" />
     </application>
 
 </manifest>

@@ -1,57 +1,7 @@
 <resources>
-    <string name="app_name">FirstCustoma</string>
-    <string name="slogan">Be the first...</string>
-    <string name="navigation_drawer_open">Drawer opened</string>
-    <string name="navigation_drawer_close">Drawer closed</string>
-    <string name="default_username">Username</string>
-    <string name="default_email">email@address.com</string>
-
-    //Fonts
-    <string name="font">fonts/lexie.ttf</string>
-
-    //Social logins
-    <string name="twitter_key_fabric">ExYKxPcu6dvF6Bo857g7wuKFR</string>
-    <string name="twitter_secret_fabric">36Fjg3J6J6HCp8oF1tNdEsaLxQlfBcXEPAnLVRWlxA5pzkZfcF</string>
-    <string name="twitter_key">NW2ZXvzDCuXisUORYs6HYssXS</string>
-    <string name="twitter_secret">cA9KbGOcXpZyoTwlD7mnZqfblwSXX38NbBef8rvxkdL5Q9Uvdh</string>
-    <string name="facebook_app_id">499671516860208</string>
-
-    //Social backends
-    <string name="social_backend_google">google-oauth2</string>
-    <string name="social_backend_facebook">facebook</string>
-    <string name="social_backend_twitter">twitter</string>
+    <string name="app_name">PeeBee Sample</string>
 
     //Firebase
-    <string name="firebase_url">https://torrid-fire-1380.firebaseio.com</string>
-    <string name="firebase_secret">zchSwIiJ4rl6WMFAA1dVfcWLGcW4bKcCXg4HW0gn</string>
-    <string name="firebase_image_script">https://torrid-fire-1380.firebaseapp.com/image.php</string>
-    <string name="firebase_image_host">https://torrid-fire-1380.firebaseapp.com/</string>
-
-    //Image hosting
-    <string name="image_script">http://ian.co.ke/hosting/image.php</string>
-    <string name="image_host">http://ian.co.ke/hosting/</string>
-    <string name="default_image">http://i.imgur.com/DvpvklR.png</string>
-
-    //Places API
-    <string name="places_browser_key">AIzaSyBhQ01sdA3_p_UGp60Jap00SUB99Qy6xl8</string>
-
-    //Product descriptions
-    <string name="products_description">Shop for anything you need, easy and convenient</string>
-    <string name="promotions_description">All the best promotions from around your area</string>
-    <string name="transport_description">Need to go somewhere? Book your seat right here</string>
-    <string name="accommodation_description">The best, most affordable places to stay around town</string>
-    <string name="to_let_description">Find that perfect spot for your house or office</string>
-    <string name="events_description">All the most exciting meetups, get togethers and parties around</string>
-    <string name="hot_deals_description">The hottest deals, guaranteed to make you smile</string>
-
-    //M-Pesa API
-    <string name="merchant_id">898998</string>
-    <string name="passkey">ada798a925b5ec20cc331c1b0048c88186735405ab8d59f968ed4dab89da5515</string>
-    <string name="callback_url">http://172.21.20.215:8080/test</string>
-    <string name= "callback_method">POST</string>
-
-    //Parse
-    <string name="parse_app_id">pviDvjnclgBLiqVPT3GNTqMSsrBdazAyS9Fr76fV</string>
-    <string name="parse_client_key">e9uCPSxhyWDW7eIq6LfkmuanKUfNycrIdhcWCRWY</string>
+    <string name="firebase_url">https://sendychat.firebaseio.com/</string>
 
 </resources>
