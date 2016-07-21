@@ -1,3 +1,5 @@
-# FirstCustoma Android Application
+# PeeBee Android Instant Messaging Library
 
-FirstCustoma aims to allow merchants to upload goods and services for sale on their mobile platform and allow buyers to purchase them.
+[Still In Development]
+
+PeeBee is an Android library that lets you easily integrate instant messaging into your app. The chat is based on Firebase but all the Firebase code is abstracted and you call some simple methods to create your chat application.
