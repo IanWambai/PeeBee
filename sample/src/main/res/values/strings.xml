@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PeeBee Sample</string>
+
+    //Firebase
+    <string name="firebase_url">https://sendychat.firebaseio.com/</string>
+
+</resources>
