@@ -1,4 +1,8 @@
 apply plugin: 'com.android.library'
+<<<<<<< HEAD
+=======
+apply plugin: 'com.google.gms.google-services'
+>>>>>>> 9bf0a75d65ac57d4678c911c5171a7d9a5ceb908
 
 android {
     compileSdkVersion 24
@@ -25,5 +29,8 @@ dependencies {
     compile 'com.google.firebase:firebase-core:9.2.1'
     compile 'com.google.firebase:firebase-database:9.2.1'
 }
+<<<<<<< HEAD
 
 apply plugin: 'com.google.gms.google-services'
+=======
+>>>>>>> 9bf0a75d65ac57d4678c911c5171a7d9a5ceb908
